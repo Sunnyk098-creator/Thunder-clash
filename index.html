@@ -257,11 +257,25 @@
         .wallet-summary { flex-grow: 1; }
         .wallet-summary .welcome-text {
             font-size: 1rem; font-weight: 700; line-height: 1.2; color: var(--text-primary-ui);
+            display: flex; /* Make it a flex container to align username and badge */
+            align-items: center; /* Center items vertically */
+            flex-wrap: wrap; /* Allow wrapping if content is too long */
         }
         .wallet-summary .welcome-text span {
-            display: block; font-size: 0.8rem; font-weight: 500; color: var(--text-secondary-ui);
+            display: inline-block; /* Ensure span behaves well with inline elements */
+            font-size: 0.8rem; font-weight: 500; color: var(--text-secondary-ui);
             text-shadow: var(--black-outline); /* Added black outline */
+            margin-right: 5px; /* Space between "Welcome," and username */
         }
+        /* NEW: Style for the premium badge image */
+        .premium-badge-img {
+            height: 1.2em; /* Adjust size as needed, relative to font size */
+            vertical-align: middle; /* Align with text */
+            margin-left: 5px; /* Space after the username */
+            display: inline-block;
+            filter: drop-shadow(0 0 5px #FFD700); /* Golden glow for the badge */
+        }
+
         .wallet-summary #header-balance-display {
             font-family: 'Russo One', sans-serif; font-size: 2rem; color: var(--accent-color-2);
             text-shadow: var(--black-outline), 0 0 15px var(--glow-strong); /* Added black outline */
@@ -521,6 +535,10 @@
         #main-menu-thunder-username-display { /* Corrected ID */
             font-family: 'Russo One', sans-serif; font-size: 1.3rem; color: var(--text-primary-ui); margin: 0 0 5px 0;
             text-shadow: var(--black-outline), 0 0 8px var(--accent-glow); /* Added black outline */
+            display: flex; /* Make it flex to align username and badge */
+            align-items: center; /* Vertically align items */
+            justify-content: center; /* Center horizontally */
+            flex-wrap: wrap; /* Allow wrapping */
         }
         #main-menu-thunder-id-value { /* Corrected ID */
             font-family: 'Roboto', sans-serif; font-size: 0.9rem; color: var(--text-secondary-ui); margin: 0; word-wrap: break-word;
@@ -642,22 +660,7 @@
             font-size: 1.1rem;
             margin-bottom: 20px;
         }
-        /* UPDATED: Premium user star badge */
-        .premium-user .welcome-text::after {
-            content: "⭐";
-            margin-left: 5px;
-            padding: 0;
-            background: none;
-            color: transparent;
-            font-size: 0.8rem;
-            font-weight: 700;
-            border-radius: 0;
-            animation: none;
-            vertical-align: middle;
-            display: inline-block;
-            text-shadow: 0 0 8px rgba(255,215,0,0.7); /* Gold glow for the star, no outline */
-            box-shadow: none;
-        }
+        /* REMOVED: Old Premium user star badge CSS. Replaced by premium-badge-img */
 
         /* Ad container styling */
         #ad-container {
@@ -677,6 +680,57 @@
         }
         #ad-container.hidden {
             display: none;
+        }
+
+        /* NEW: Gift Box Modal specific styles */
+        #gift-box-modal .modal-content {
+            text-align: center;
+            background-color: var(--bg-primary-ui); /* Darker background for focus */
+        }
+
+        #gift-box-modal .gift-image-container {
+            position: relative;
+            width: 150px; /* Size of the gift box */
+            height: 150px;
+            margin: 20px auto;
+            cursor: pointer;
+            transition: transform 0.3s ease-in-out;
+            border-radius: 15px; /* So the shadow respects the image's shape */
+            box-shadow: 0 0 20px rgba(255, 193, 7, 0.7); /* Gold-like glow */
+        }
+        #gift-box-modal .gift-image-container:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.9); /* Stronger gold glow on hover */
+        }
+
+        #gift-box-modal .gift-image-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            filter: drop-shadow(0 0 10px rgba(255, 193, 7, 0.5)); /* Subtle glow on the image itself */
+        }
+
+        #gift-box-modal .gift-image-container.claimed {
+            cursor: default; /* No more clicking after claiming */
+            animation: none;
+            filter: grayscale(80%); /* Dim the image after claiming */
+            opacity: 0.7;
+        }
+
+        #gift-box-modal .claimed-amount-display {
+            font-family: 'Russo One', sans-serif;
+            font-size: 2.5rem;
+            color: var(--success-green); /* Green for claimed amount */
+            text-shadow: var(--black-outline), 0 0 15px var(--success-green);
+            margin-top: 20px;
+            display: none; /* Hidden until claimed */
+            animation: splash-glow 2s infinite alternate; /* Make it flashy! */
+        }
+
+        #gift-box-modal .gift-message {
+            font-size: 1.1rem;
+            color: var(--text-secondary-ui);
+            margin-bottom: 20px;
         }
     </style>
 </head>
@@ -986,6 +1040,21 @@
     </div>
 </div>
 
+<!-- NEW: Gift Box Modal -->
+<div id="gift-box-modal" class="modal-overlay">
+    <div class="modal-content">
+        <button class="close-modal" onclick="closeModal(event, 'gift-box-modal')">×</button>
+        <h2>🎁 You've Received a Gift! 🎁</h2>
+        <p class="gift-message" id="gift-message-text">Click the box to reveal your surprise!</p>
+        <div class="gift-image-container" onclick="claimGift()">
+            <img src="gift.png" alt="Gift Box" id="gift-box-image">
+        </div>
+        <p class="claimed-amount-display" id="claimed-gift-amount"></p>
+        <button class="join-button" style="margin-top: 20px;" onclick="closeModal(event, 'gift-box-modal');">Close</button>
+    </div>
+</div>
+
+
 <!-- NEW: Bottom Navigation Bar -->
 <nav class="bottom-nav">
     <a href="#" class="bottom-nav-item" onclick="showProfilePage(); activateBottomNavItem(this);">
@@ -1058,6 +1127,9 @@
     let isCurrentUserPremium = false; // NEW: Track premium status
     let maintenanceCheckInterval = null; // To store the interval for maintenance checks
     let previousScreen = 'app-container'; // Keep track of the previous screen for back navigation
+
+    let currentGiftId = null; // NEW: Stores the ID of the current pending gift
+    let currentGiftData = null; // NEW: Stores the data of the current pending gift
 
     // Variables to store active Firebase listeners for efficient management
     let matchesListener = null;
@@ -1200,7 +1272,7 @@
             applyTheme(savedTheme);
 
             showScreen('app-container');
-            loadUserData();
+            await loadUserData(); // Await loadUserData to check for gifts immediately
             // REMOVED: loadAllMatchesForHome(); as home no longer displays all matches
 
             document.querySelector('.bottom-nav').style.display = 'flex';
@@ -1655,14 +1727,14 @@
         }
     }
 
-    function loadUserData() { 
+    async function loadUserData() { 
         if (!currentUser) return; 
         
         detachUserDataListeners();
 
         const userRef = db.ref('users/' + currentUser); 
         
-        userBalanceListener = userRef.on('value', (snapshot) => {
+        userBalanceListener = userRef.on('value', async (snapshot) => { // Made async to await gift check
             const userData = snapshot.val(); 
             if (userData) { 
                 if (userData.isBanned) { handleFullLogout(); showBannedScreen(); return; } 
@@ -1671,6 +1743,41 @@
                 isCurrentUserPremium = (userData.isPremium && userData.premiumExpiry > now);
                 const walletSummaryHeader = document.getElementById('wallet-summary-header');
                 const adContainer = document.getElementById('ad-container'); 
+
+                // Handle Premium Badge for Home Screen
+                const userDisplayDiv = document.getElementById('user-display');
+                if (userDisplayDiv) {
+                    // Clear any old premium badge before adding a new one
+                    let existingBadge = userDisplayDiv.querySelector('.premium-badge-img');
+                    if (existingBadge) {
+                        existingBadge.remove();
+                    }
+
+                    userDisplayDiv.innerHTML = `Welcome, <span>${currentUser}</span>`; // Reset text content
+                    const usernameSpan = userDisplayDiv.querySelector('span');
+
+                    if (isCurrentUserPremium) {
+                        let premiumBadgeSrc = '';
+                        const remainingTime = userData.premiumExpiry - now; // Time in milliseconds
+                        const remainingDays = Math.ceil(remainingTime / (1000 * 60 * 60 * 24)); // Days remaining
+
+                        if (remainingDays <= 1) {
+                            premiumBadgeSrc = 'p1.png'; // 1 day or less
+                        } else if (remainingDays <= 7) {
+                            premiumBadgeSrc = 'p7.png'; // 2 to 7 days
+                        } else {
+                            premiumBadgeSrc = 'p30.png'; // More than 7 days (including 30+ days)
+                        }
+
+                        if (premiumBadgeSrc) {
+                            const premiumBadgeImg = document.createElement('img');
+                            premiumBadgeImg.src = premiumBadgeSrc;
+                            premiumBadgeImg.alt = 'Premium';
+                            premiumBadgeImg.classList.add('premium-badge-img');
+                            usernameSpan.appendChild(premiumBadgeImg);
+                        }
+                    }
+                }
 
                 if (isCurrentUserPremium) {
                     walletSummaryHeader.classList.add('premium-user');
@@ -1689,7 +1796,7 @@
                 const balance = userData.balance || 0; 
                 document.getElementById('header-balance-display').innerText = `₹${balance.toFixed(2)}`; 
                 if(document.getElementById('balance-display-modal')) { document.getElementById('balance-display-modal').innerText = `Balance: ₹${balance.toFixed(2)}`; } 
-                document.getElementById('user-display').innerHTML = `Welcome, <span>${currentUser}</span>`; 
+                
                 const historyList = document.getElementById('history-list'); 
                 if(historyList) { 
                     historyList.innerHTML = ''; 
@@ -1701,11 +1808,15 @@
                             else if (item.type === 'sent') { li.innerHTML = `Sent ₹${item.amount} to <strong>${item.to}</strong> <i class="fa-solid fa-arrow-up" style="color: var(--error-red);"></i>`; } 
                             else if (item.type === 'received') { li.innerHTML = `Received ₹${item.amount} from <strong>${item.from}</strong> <i class="fa-solid fa-arrow-down" style="color: var(--success-green);"></i>`; } 
                             else if (item.type === 'match_winnings') { li.innerHTML = `Won ₹${item.amount} from ${item.matchTitle || 'a match'} <i class="fa-solid fa-trophy" style="color: var(--accent-color-2);"></i>`; } 
-                            else if (item.type === 'entry_fee') { li.innerHTML = `Paid ₹${item.amount} entry for ${item.matchTitle || 'a match'} <i class="fa-solid fa-ticket" style="color: var(--error-red);"></i>`; } 
+                            else if (item.type === 'entry_fee') { li.innerHTML = `Paid ₹${item.amount} entry for ${item.matchTitle || 'a match'} <i class="fa-solid fa-ticket" style="color: var(--error-red);"></i>`; }
+                            else if (item.type === 'gift_received') { li.innerHTML = `Gift: <strong>+₹${item.amount}</strong> <i class="fa-solid fa-gift" style="color: #FFD700;"></i>`; } // New history type for gifts
                             historyList.appendChild(li); 
                         }); 
                     } else { historyList.innerHTML = '<li>No transaction history.</li>'; } 
                 } 
+
+                // NEW: Check for pending gifts and show modal
+                await checkForPendingGifts(); // Wait for gift check to complete
             } 
         }, (error) => {
             console.error("Error loading user data:", error);
@@ -1725,6 +1836,120 @@
         }); 
     }
 
+    // NEW FUNCTION: Check for pending gifts
+    async function checkForPendingGifts() {
+        if (!currentUser) return;
+
+        const giftsRef = db.ref(`users/${currentUser}/gifts`);
+        const snapshot = await giftsRef.orderByChild('status').equalTo('pending').once('value');
+
+        if (snapshot.exists()) {
+            // Find the first pending gift
+            const firstGiftEntry = Object.entries(snapshot.val())[0];
+            currentGiftId = firstGiftEntry[0];
+            currentGiftData = firstGiftEntry[1];
+
+            document.getElementById('gift-message-text').innerText = "Click the box to reveal your surprise!";
+            document.getElementById('gift-box-image').src = 'gift.png'; // Reset image
+            document.querySelector('.gift-image-container').classList.remove('claimed'); // Reset state
+            document.getElementById('claimed-gift-amount').style.display = 'none'; // Hide amount
+            openModal(null, 'gift-box-modal');
+        } else {
+            currentGiftId = null;
+            currentGiftData = null;
+            // No pending gifts, ensure modal is closed if it was open
+            closeModal(null, 'gift-box-modal');
+        }
+    }
+
+    // NEW FUNCTION: Generate random gift amount with rarity
+    function generateRandomGiftAmount(min, max) {
+        if (min === max) return min; // If min and max are the same, just return that amount
+
+        const range = max - min;
+        const rand = Math.random(); // 0 to 1
+
+        let amount;
+
+        // Rarity tiers (adjust percentages as desired)
+        if (rand < 0.60) { // 60% chance for lower range
+            amount = min + Math.random() * (range * 0.33); // 0% to 33% of range
+        } else if (rand < 0.85) { // 25% chance for mid-range
+            amount = min + (range * 0.33) + Math.random() * (range * 0.34); // 33% to 67% of range
+        } else if (rand < 0.95) { // 10% chance for upper-range
+            amount = min + (range * 0.67) + Math.random() * (range * 0.33); // 67% to 100% of range (but not max itself)
+        } else { // 5% chance for maximum amount
+            amount = max;
+        }
+        
+        return Math.floor(amount); // Ensure integer amount
+    }
+
+    // NEW FUNCTION: Claim the gift
+    async function claimGift() {
+        if (!currentUser || !currentGiftId || !currentGiftData) {
+            alert("No gift available to claim.");
+            closeModal(null, 'gift-box-modal');
+            return;
+        }
+
+        const giftImageContainer = document.querySelector('.gift-image-container');
+        if (giftImageContainer.classList.contains('claimed')) {
+            alert("This gift has already been claimed.");
+            return;
+        }
+        
+        giftImageContainer.classList.add('claimed'); // Mark as claimed visually immediately
+        giftImageContainer.style.cursor = 'default';
+
+        const minAmount = currentGiftData.minAmount;
+        const maxAmount = currentGiftData.maxAmount;
+        const claimedAmount = generateRandomGiftAmount(minAmount, maxAmount);
+
+        try {
+            // Use a transaction to safely update balance and record history
+            await db.ref(`users/${currentUser}`).transaction(userData => {
+                if (userData) {
+                    userData.balance = (userData.balance || 0) + claimedAmount;
+                    const transactionId = db.ref().child('transactions').push().key;
+                    if (!userData.transactions) userData.transactions = {};
+                    userData.transactions[transactionId] = {
+                        type: 'gift_received',
+                        amount: claimedAmount,
+                        timestamp: new Date().toISOString()
+                    };
+                }
+                return userData;
+            });
+
+            // Update gift status to 'claimed' in Firebase
+            await db.ref(`users/${currentUser}/gifts/${currentGiftId}`).update({
+                status: 'claimed',
+                claimedAmount: claimedAmount,
+                claimedAt: new Date().toISOString()
+            });
+
+            document.getElementById('gift-message-text').innerText = "Congratulations!";
+            const claimedAmountDisplay = document.getElementById('claimed-gift-amount');
+            claimedAmountDisplay.innerText = `+₹${claimedAmount}`;
+            claimedAmountDisplay.style.display = 'block';
+
+            alert(`You claimed ₹${claimedAmount} from the gift box!`);
+            currentGiftId = null; // Clear current gift
+            currentGiftData = null; // Clear current gift data
+
+            // Re-load user data to update balance display and check for other gifts
+            await loadUserData();
+
+        } catch (error) {
+            console.error("Error claiming gift:", error);
+            alert("Failed to claim gift. Please try again.");
+            giftImageContainer.classList.remove('claimed'); // Revert visual state
+            giftImageContainer.style.cursor = 'pointer';
+        }
+    }
+
+
     function openWalletModal() {
         showScreen('app-container');
         openModal(null, 'wallet-modal');
@@ -1740,16 +1965,53 @@
             }, (error) => { console.error("Error fetching server name for menu:", error); document.getElementById('connected-server-name').innerText = 'Error'; }); 
         } 
         
-        db.ref('users/' + currentUser + '/thunderId').once('value', (snapshot) => {
-            const thunderId = snapshot.val();
+        db.ref('users/' + currentUser).once('value', (userSnapshot) => {
+            const userData = userSnapshot.val();
+            const thunderId = userData?.thunderId;
+            const mainMenuUsernameDisplay = document.getElementById('main-menu-thunder-username-display');
+
+            // Clear any old premium badge before adding a new one
+            let existingBadge = mainMenuUsernameDisplay.querySelector('.premium-badge-img');
+            if (existingBadge) {
+                existingBadge.remove();
+            }
+
+            mainMenuUsernameDisplay.innerText = currentUser; // Reset text content to just username
+
+            const now = Date.now();
+            isCurrentUserPremium = (userData.isPremium && userData.premiumExpiry > now);
+
+            if (isCurrentUserPremium) {
+                let premiumBadgeSrc = '';
+                const remainingTime = userData.premiumExpiry - now; // Time in milliseconds
+                const remainingDays = Math.ceil(remainingTime / (1000 * 60 * 60 * 24)); // Days remaining
+
+                if (remainingDays <= 1) {
+                    premiumBadgeSrc = 'p1.png'; // 1 day or less
+                } else if (remainingDays <= 7) {
+                    premiumBadgeSrc = 'p7.png'; // 2 to 7 days
+                } else {
+                    premiumBadgeSrc = 'p30.png'; // More than 7 days (including 30+ days)
+                }
+
+                if (premiumBadgeSrc) {
+                    const premiumBadgeImg = document.createElement('img');
+                    premiumBadgeImg.src = premiumBadgeSrc;
+                    premiumBadgeImg.alt = 'Premium';
+                    premiumBadgeImg.classList.add('premium-badge-img');
+                    mainMenuUsernameDisplay.appendChild(premiumBadgeImg);
+                }
+            }
+            
             if (thunderId) { 
-                document.getElementById('main-menu-thunder-username-display').innerText = currentUser;
                 document.getElementById('main-menu-thunder-id-value').innerHTML = `Thunder ID: <strong>${thunderId}</strong>`;
             } else {
-                document.getElementById('main-menu-thunder-username-display').innerText = currentUser;
                 document.getElementById('main-menu-thunder-id-value').innerHTML = `Thunder ID: <strong>N/A</strong>`;
             }
-        }, (error) => { console.error("Error fetching thunder ID for menu:", error); document.getElementById('main-menu-thunder-id-value').innerHTML = `Thunder ID: <strong>Error</strong>`; }); 
+        }, (error) => { 
+            console.error("Error fetching thunder ID for menu:", error); 
+            document.getElementById('main-menu-thunder-id-value').innerHTML = `Thunder ID: <strong>Error</strong>`; 
+        }); 
 
         document.querySelectorAll('.theme-btn').forEach(btn => {
             const btnThemeNameMatch = btn.onclick.toString().match(/changeTheme\('(\w+)'\)/);
