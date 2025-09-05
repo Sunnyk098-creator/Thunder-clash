@@ -1,0 +1,2613 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thunder Clash - Electrifying Tournaments</title>
+    <!-- Google Fonts & Font Awesome for Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Russo+One&family=Roboto:wght@400;500;700&family=Orbitron:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+    <style>
+        /* --- THUNDER CLASH THEME (Fixed) --- */
+        :root {
+            /* Base for the THUNDER & LIGHTNING Background - SKY BLUE SHADES */
+            --base-bg-start: #ADD8E6; /* Light Blue */
+            --base-bg-mid: #B0E0E6;  /* Powder Blue */
+            --base-bg-end: #E0FFFF;  /* Light Cyan */
+
+            /* Fixed UI Backgrounds for glassmorphism effect - Dark Blue/Grey Transparency */
+            --bg-primary-ui: rgba(10, 10, 26, 0.85); /* Very dark bluish-purple for modals/popups base, slightly more opaque */
+            --bg-secondary-ui: rgba(26, 0, 51, 0.5); /* Transparent dark blue for cards, more subtle */
+            --bg-tertiary-ui: rgba(38, 0, 76, 0.5); /* Slightly lighter transparent for inputs */
+            
+            /* Fixed Text Colors for glassmorphism UI */
+            --text-primary-ui: #E0FFFF; /* Light Cyan for main text (white with a blue tint) */
+            --text-secondary-ui: #ADD8E6; /* Light Blue for secondary text */
+
+            /* Default Accent Colors (Electric Blue/Cyan for Thunder Clash) */
+            --accent-color-1: #00BFFF; /* Deep Sky Blue */
+            --accent-color-2: #00FFFF; /* Electric Cyan */
+            --accent-glow: rgba(0, 191, 255, 0.7); /* Deep Sky Blue glow */
+
+            /* Derived colors for easier use */
+            --glow-strong: rgba(0, 255, 255, 0.9); /* Stronger Electric Cyan glow */
+            --border-color-ui: rgba(0, 191, 255, 0.4); /* Blue border with transparency */
+            --shadow-color-ui: rgba(0, 191, 255, 0.5); /* Blue shadow with transparency */
+            --gradient-text: #FFFFFF; /* White text for gradient buttons */
+            --success-green: #39FF14; /* Neon Green for success */
+            --error-red: #FF3333; /* Bright Red for errors */
+
+            /* NEW: Thinner Black Outline for Text */
+            --black-outline: 
+                -1px -1px 0 #000, 
+                1px -1px 0 #000, 
+                -1px 1px 0 #000, 
+                1px 1px 0 #000;
+        }
+
+        /* --- THEME ACCENT COLOR OVERRIDES (These only change --accent-color-1, --accent-color-2, and --accent-glow) --- */
+        /* Normal Themes */
+        body.orange-theme { --accent-color-1: #ffab00; --accent-color-2: #ff6d00; --accent-glow: rgba(255, 109, 0, 0.7); }
+        body.yellow-theme { --accent-color-1: #ffd600; --accent-color-2: #ffc107; --accent-glow: rgba(255, 193, 7, 0.7); }
+        body.green-theme { --accent-color-1: #8BC34A; --accent-color-2: #4CAF50; --accent-glow: rgba(76, 175, 80, 0.7); }
+        body.blue-theme { --accent-color-1: #00b8d4; --accent-color-2: #007bff; --accent-glow: rgba(0, 123, 255, 0.6); }
+        body.red-theme { --accent-color-1: #ff5252; --accent-color-2: #f44336; --accent-glow: rgba(244, 67, 54, 0.6); }
+        
+        /* Premium Accent Themes */
+        body.purple-theme { --accent-color-1: #E040FB; --accent-color-2: #9C27B0; --accent-glow: rgba(156, 39, 176, 0.7); }
+        body.teal-theme { --accent-color-1: #4DB6AC; --accent-color-2: #009688; --accent-glow: rgba(0, 150, 136, 0.7); }
+        body.pink-theme { --accent-color-1: #F06292; --accent-color-2: #E91E63; --accent-glow: rgba(233, 30, 99, 0.7); }
+        body.cyan-theme { --accent-color-1: #4DD0E1; --accent-color-2: #00BCD4; --accent-glow: rgba(0, 188, 212, 0.7); }
+        body.indigo-theme { --accent-color-1: #7986CB; --accent-color-2: #3F51B5; --accent-glow: rgba(63, 81, 181, 0.7); }
+        body.lime-theme { --accent-color-1: #D4E157; --accent-color-2: #CDDC39; --accent-glow: rgba(205, 220, 57, 0.7); }
+        body.slate-theme { --accent-color-1: #90A4AE; --accent-color-2: #607D8B; --accent-glow: rgba(96, 125, 139, 0.7); }
+        body.gold-theme { --accent-color-1: #FFC107; --accent-color-2: #FFD700; --accent-glow: rgba(255, 215, 0, 0.8); }
+        body.silver-theme { --accent-color-1: #D3D3D3; --accent-color-2: #C0C0C0; --accent-glow: rgba(192, 192, 192, 0.7); }
+        body.bronze-theme { --accent-color-1: #D2B48C; --accent-color-2: #CD7F32; --accent-glow: rgba(205, 127, 50, 0.7); }
+        body.aqua-theme { --accent-color-1: #7FFFD4; --accent-color-2: #00FFFF; --accent-glow: rgba(0, 255, 255, 0.7); }
+        body.vividpink-theme { --accent-color-1: #FF1493; --accent-color-2: #FF007F; --accent-glow: rgba(255, 0, 127, 0.7); }
+        body.forest-theme { --accent-color-1: #32CD32; --accent-color-2: #228B22; --accent-glow: rgba(34, 139, 34, 0.7); }
+        body.royalblue-theme { --accent-color-1: #6495ED; --accent-color-2: #4169E1; --accent-glow: rgba(65, 105, 225, 0.7); }
+        body.violet-theme { --accent-color-1: #DDA0DD; --accent-color-2: #EE82EE; --accent-glow: rgba(238, 130, 238, 0.7); }
+        body.sunset-theme { --accent-color-1: #FFA07A; --accent-color-2: #FF7F50; --accent-glow: rgba(255, 127, 80, 0.7); }
+        body.cherry-theme { --accent-color-1: #E32636; --accent-color-2: #D2042D; --accent-glow: rgba(210, 4, 45, 0.7); }
+
+        /* --- KEYFRAMES --- */
+        /* Enhanced text glow for electric spark/lightning effect */
+        @keyframes text-glow { 
+            0%, 100% { text-shadow: var(--black-outline), 0 0 8px var(--accent-glow), 0 0 20px var(--glow-strong); } 
+            50% { text-shadow: var(--black-outline), 0 0 12px var(--accent-glow), 0 0 30px var(--glow-strong), 0 0 50px rgba(0, 255, 255, 0.3); } /* Stronger peak glow */
+        }
+        /* Splash text glow, very bright */
+        @keyframes splash-glow { 
+            0%, 100% { text-shadow: var(--black-outline), 0 0 10px #fff, 0 0 22px var(--accent-color-2), 0 0 35px var(--accent-color-1); } 
+            50% { text-shadow: var(--black-outline), 0 0 15px #fff, 0 0 30px var(--accent-color-2), 0 0 50px var(--accent-color-1); } 
+        }
+        @keyframes scale-up { 0% { transform: scale(0.5); opacity: 0; } 60% { transform: scale(1.1); opacity: 1; } 100% { transform: scale(1); } }
+        @keyframes draw-check { 0% { stroke-dashoffset: 36; } 100% { stroke-dashoffset: 0; } }
+        /* Background gradient shift for dynamic energy */
+        @keyframes gradientShift { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        
+        /* UPDATED: Keyframe for the lightning glow - Adjusted for blue electric feel */
+        @keyframes lightning-fade-glow {
+            0%, 100% { 
+                opacity: 1; /* Fully visible */
+                text-shadow: 0 0 25px var(--accent-glow), 0 0 50px var(--glow-strong); /* Blue glow */
+                transform: translate(-50%, -50%) scale(1);
+            }
+            50% { 
+                opacity: 1; /* Fully visible */
+                text-shadow: 0 0 40px var(--accent-color-2), 0 0 80px var(--accent-glow), 0 0 100px var(--text-primary-ui); /* Even stronger blue/cyan glow */
+                transform: translate(-50%, -50%) scale(1.05); /* Slight pulse */
+            }
+        }
+        /* NEW: Button pulse effect */
+        @keyframes pulse-glow {
+            0% { box-shadow: 0 0 5px var(--accent-glow); }
+            50% { box-shadow: 0 0 15px var(--accent-glow), 0 0 25px var(--glow-strong); }
+            100% { box-shadow: 0 0 5px var(--accent-glow); }
+        }
+
+
+        /* --- GLOBAL STYLES --- */
+        body {
+            background: linear-gradient(120deg, var(--base-bg-start), var(--base-bg-mid), var(--base-bg-end));
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
+            background-attachment: fixed;
+            color: var(--text-primary-ui);
+            margin: 0; padding: 0;
+            transition: color 0.5s, background 0.5s;
+            padding-bottom: 80px; /* Space for bottom nav */
+            overflow-x: hidden; /* Prevent horizontal scroll from gradient animation */
+            font-family: 'Roboto', sans-serif;
+            -webkit-font-smoothing: antialiased; /* Smoother fonts */
+            -moz-osx-font-smoothing: grayscale; /* Smoother fonts */
+        }
+
+        #background-thunder-emoji {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 60vh; /* Adjusted size */
+            color: var(--accent-color-2); /* Bright blue */
+            opacity: 1; /* Fully visible */
+            z-index: -1; /* Behind everything */
+            pointer-events: none; /* Do not block clicks */
+            text-shadow: none; /* No static text-shadow/outline */
+            animation: lightning-fade-glow 10s infinite alternate; /* New animation for blue glow */
+        }
+        
+        .splash { 
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+            background-color: var(--bg-primary-ui); 
+            display: flex; flex-direction: column; align-items: center; 
+            transition: opacity 0.5s ease-out; z-index: 10000; 
+            padding: 20px; /* Added padding for content */
+            box-sizing: border-box; /* Include padding in width/height */
+        }
+        #splash-screen { z-index: 9999; }
+        
+        /* New styles for splash logo, app name, spinner, and developer text */
+        #splash-logo {
+            width: 120px; /* Adjust size as needed */
+            height: 120px;
+            object-fit: contain;
+            margin-top: 10vh; /* Pushes logo down from the very top, creates a "top-center" feel */
+            margin-bottom: 20px; /* Space between logo and text */
+            filter: drop-shadow(0 0 15px var(--accent-glow)); /* Glow for the logo */
+        }
+
+        #splash-text { 
+            font-family: 'Orbitron', sans-serif; font-size: 2.8rem; color: #f0f0f0; 
+            animation: splash-glow 2s infinite alternate; 
+            text-align: center;
+            margin-bottom: 20px; /* Space between text and spinner */
+        }
+        
+        .splash-spinner {
+            border: 4px solid rgba(0,255,255,0.1);
+            border-top: 4px solid var(--accent-color-2);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin-bottom: auto; /* Pushes the spinner and everything above it upwards */
+            box-shadow: 0 0 10px var(--accent-glow);
+        }
+        
+        #developer-text {
+            font-family: 'Orbitron', sans-serif; /* Stylish font */
+            font-size: 1.6rem; /* Stylish size */
+            color: #f0f0f0; /* Stylish color, matching splash-text base */
+            text-shadow: var(--black-outline); /* Keep outline */
+            animation: splash-glow 2s infinite alternate; /* Add glow animation */
+            margin-top: auto; /* Pushes this text downwards */
+            margin-bottom: 40px; /* Space from bottom of screen */
+            text-align: center; /* Center the text */
+        }
+
+        .container { 
+            max-width: 500px; 
+            margin: auto; 
+            padding: 15px; 
+            display: none; /* Hidden by default, made visible after splash screens */
+        }
+        h1, h2, h3 { 
+            font-family: 'Russo One', sans-serif; color: var(--accent-color-2); 
+            text-shadow: var(--black-outline), 0 0 10px var(--accent-glow); /* Added black outline */
+        }
+
+        /* --- Glassmorphism Effect Base --- */
+        .glass-card {
+            background-color: var(--bg-secondary-ui);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--border-color-ui);
+            box-shadow: 0 4px 15px var(--shadow-color-ui);
+            border-radius: 18px;
+            transition: all 0.3s ease-in-out;
+        }
+        .glass-card:hover {
+            box-shadow: 0 0 20px var(--glow-strong);
+        }
+
+        .fullscreen-container { 
+            display: none; /* Controlled by JS `showScreen` function */
+            flex-direction: column; align-items: center; justify-content: center; 
+            min-height: calc(100vh - 40px); background-color: var(--bg-primary-ui); padding: 20px; 
+            border-radius: 18px; backdrop-filter: blur(15px); margin: 20px auto; box-sizing: border-box; 
+            text-align: center; border: 1px solid var(--border-color-ui); box-shadow: 0 4px 20px var(--shadow-color-ui);
+        }
+        #server-connection-container .icon, .banned-icon, .maintenance-icon { 
+            font-size: 6rem; margin-bottom: 20px; color: var(--accent-color-2); 
+            text-shadow: var(--black-outline), 0 0 25px var(--glow-strong); /* Added black outline */
+        }
+        #server-connection-container h2, #login-container h1, #review-request-container h2, #maintenance-container h2, #banned-container h2 {
+            animation: text-glow 3s infinite alternate;
+        }
+        
+        #app-container, #match-details-container, #send-money-container, #transfer-success-container, #pin-verification-container,
+         #game-matches-container { display: none; }
+        
+        /* UPDATED: Menu icon to thunderbolt */
+        .menu-icon-container { font-size: 28px; color: var(--accent-color-2); cursor: pointer; text-shadow: var(--black-outline), 0 0 12px var(--glow-strong); padding-left: 15px; }
+        .app-top-bar { 
+            font-family: 'Russo One', sans-serif; font-size: 1.8rem; color: var(--accent-color-2); 
+            text-align: center; text-shadow: var(--black-outline), 0 0 15px var(--glow-strong); /* Added black outline */
+            animation: text-glow 2.5s infinite alternate; /* Subtle flashing */
+        }
+
+        /* --- Home Screen Header Layout --- */
+        .home-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px;
+            margin: 10px 0 30px 0;
+            background-color: var(--bg-secondary-ui);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--border-color-ui);
+            box-shadow: 0 4px 15px var(--shadow-color-ui);
+            border-radius: 18px;
+        }
+        .wallet-summary { flex-grow: 1; }
+        .wallet-summary .welcome-text {
+            font-size: 1rem; font-weight: 700; line-height: 1.2; color: var(--text-primary-ui);
+            display: flex; /* Make it a flex container to align username and badge */
+            align-items: center; /* Center items vertically */
+            flex-wrap: wrap; /* Allow wrapping if content is too long */
+        }
+        .wallet-summary .welcome-text span {
+            display: inline-block; /* Ensure span behaves well with inline elements */
+            font-size: 0.8rem; font-weight: 500; color: var(--text-secondary-ui);
+            text-shadow: var(--black-outline); /* Added black outline */
+            margin-right: 5px; /* Space between "Welcome," and username */
+        }
+        /* UPDATED: Style for the premium badge image */
+        .premium-badge-img {
+            height: 28px; /* Increased size for premium badge */
+            width: auto; /* Maintain aspect ratio */
+            vertical-align: middle; /* Align with text */
+            margin-left: 5px; /* Space after the username */
+            display: inline-block;
+            filter: drop_shadow(0 0 8px #FFD700); /* Golden glow for the badge */
+        }
+
+        .wallet-summary #header-balance-display {
+            font-family: 'Russo One', sans-serif; font-size: 2rem; color: var(--accent-color-2);
+            text-shadow: var(--black-outline), 0 0 15px var(--glow-strong); /* Added black outline */
+            margin-top: 5px;
+        }
+        .header-actions {
+            display: grid; /* Changed to grid for better control with one button */
+            grid-template-columns: 1fr; /* Single column */
+            gap: 8px;
+        }
+        .header-action-btn {
+            font-family: 'Roboto', sans-serif;
+            background-color: var(--bg-tertiary-ui);
+            border: 1px solid var(--border-color-ui);
+            color: var(--text-secondary-ui);
+            border-radius: 12px;
+            padding: 8px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease-in-out;
+            font-size: 0.75rem;
+            font-weight: 500;
+            width: 70px; /* Fixed width */
+            height: 70px; /* Fixed height */
+            box-shadow: 0 2px 8px var(--shadow-color-ui);
+            backdrop-filter: blur(8px);
+        }
+        .header-action-btn i {
+            font-size: 1.4rem; color: var(--accent-color-2); transition: all 0.2s; 
+            text-shadow: var(--black-outline), 0 0 10px var(--accent-glow); /* Added black outline */
+        }
+        .header-action-btn:hover {
+            background-color: rgba(0, 255, 255, 0.1);
+            border-color: var(--accent-color-2);
+            box-shadow: 0 0 20px var(--glow-strong);
+            transform: translateY(-2px);
+            animation: pulse-glow 1.5s infinite; /* Electric pulse effect */
+        }
+        #quick-notice-badge {
+            position: absolute; top: 5px; right: 5px; width: 10px; height: 10px;
+            background-color: var(--error-red); border-radius: 50%; display: none;
+            border: 2px solid var(--bg-primary-ui); box-shadow: 0 0 8px var(--error-red);
+        }
+        .header-action-btn.notice { position: relative; }
+
+
+        main > h2, .page-header { text-align: center; font-size: 2.2rem; color: var(--accent-color-2); margin-bottom: 25px; animation: text-glow 2.5s infinite alternate; }
+        
+        /* NEW: Game Selection Grid */
+        #game-selection-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr; /* 2x2 grid */
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .game-selection-btn {
+            background-color: var(--bg-secondary-ui);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--border-color-ui);
+            box-shadow: 0 4px 15px var(--shadow-color-ui);
+            border-radius: 18px;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease-in-out;
+            color: var(--text-primary-ui);
+            font-family: 'Russo One', sans-serif;
+            font-size: 1.1rem;
+            text-shadow: var(--black-outline), 0 0 8px var(--accent-glow);
+            height: 150px; /* Ensure square-like shape */
+        }
+        .game-selection-btn img {
+            width: 70px; /* Adjust size as needed */
+            height: 70px;
+            object-fit: contain;
+            filter: drop-shadow(0 0 10px var(--accent-glow)); /* Add glow to images */
+            transition: transform 0.3s ease-in-out;
+        }
+        .game-selection-btn:hover {
+            box-shadow: 0 0 25px var(--glow-strong);
+            transform: translateY(-5px) scale(1.02);
+            animation: pulse-glow 1.5s infinite;
+        }
+        .game-selection-btn:hover img {
+            transform: scale(1.1);
+        }
+
+        #matches-list, #game-specific-matches-list { display: grid; gap: 20px; padding-bottom: 20px; }
+        .match-card {
+            display: flex; gap: 15px; align-items: stretch;
+            padding: 15px;
+            background-color: var(--bg-secondary-ui);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--border-color-ui);
+            box-shadow: 0 4px 15px var(--shadow-color-ui);
+            border-radius: 18px;
+        }
+        .match-card-emoji { 
+            width: 90px; height: 90px; flex-shrink: 0; border-radius: 12px; 
+            display: flex; align-items: center; justify-content: center; 
+            font-size: 50px; background-color: var(--bg-tertiary-ui); 
+            color: var(--accent-color-2); text-shadow: var(--black-outline), 0 0 15px var(--glow-strong); /* Added black outline */
+            border: 1px solid var(--border-color-ui);
+        }
+        .match-details h3 { margin: 0 0 10px 0; color: var(--accent-color-2); 
+            text-shadow: var(--black-outline), 0 0 8px var(--accent-glow); /* Added black outline */
+            font-size: 1.6rem; 
+        }
+        .match-details p { margin: 2px 0; font-size: 0.95rem; color: var(--text-secondary-ui); }
+        .match-details strong { color: var(--text-primary-ui); }
+        
+        .join-button, .submit-button, .dismiss-button { 
+            font-family: 'Russo One', sans-serif; border: none; padding: 12px; 
+            border-radius: 10px; cursor: pointer; font-weight: bold; font-size: 1.1rem; 
+            text-align: center; transition: all 0.3s; flex-grow: 1;
+            box-shadow: 0 2px 10px var(--shadow-color-ui);
+        }
+        .join-button, .submit-button { 
+            background-image: linear-gradient(45deg, var(--accent-color-1), var(--accent-color-2)); 
+            color: var(--gradient-text); 
+            text-shadow: var(--black-outline), 0 0 5px rgba(0,0,0,0.5); /* Stronger text shadow */
+        }
+        .join-button:hover, .submit-button:hover { 
+            transform: scale(1.05); 
+            box-shadow: 0 0 25px var(--glow-strong); 
+            animation: pulse-glow 1.5s infinite; /* Electric pulse effect */
+        }
+        .view-details-button { 
+            background-color: var(--bg-tertiary-ui); color: var(--accent-color-2); 
+            border: 1px solid var(--border-color-ui); 
+            text-shadow: var(--black-outline), 0 0 5px var(--accent-glow); /* Added black outline */
+        }
+        .view-details-button:hover {
+            box-shadow: 0 0 15px var(--accent-glow);
+            animation: pulse-glow 1.5s infinite; /* Electric pulse effect */
+        }
+        .logout-button { 
+            background-image: linear-gradient(45deg, var(--error-red), #e60000); color: white; /* Red gradient for logout */
+            text-shadow: var(--black-outline), 0 0 3px rgba(0,0,0,0.5); /* Added black outline */
+        }
+        .logout-button:hover { 
+            transform: scale(1.05); 
+            box-shadow: 0 0 20px rgba(255, 0, 0, 0.7); 
+            animation: pulse-glow 1.5s infinite; /* Electric pulse effect */
+        }
+        
+        .details-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .back-button { background: none; border: none; color: var(--accent-color-2); font-size: 28px; cursor: pointer; 
+            text-shadow: var(--black-outline), 0 0 12px var(--glow-strong); /* Stronger glow for icon */
+        }
+        .details-content { 
+            background: var(--bg-secondary-ui); padding: 20px; border-radius: 18px; 
+            backdrop-filter: blur(10px); border: 1px solid var(--border-color-ui); 
+            box-shadow: 0 4px 15px var(--shadow-color-ui);
+        }
+        
+        input[type="text"], input[type="number"], input[type="password"], textarea { 
+            width: 100%; padding: 12px; margin-bottom: 12px; 
+            background-color: var(--bg-tertiary-ui); border: 1px solid var(--border-color-ui); 
+            color: var(--text-primary-ui); border-radius: 10px; font-size: 1rem; 
+            transition: all 0.3s; box-sizing: border-box;
+            backdrop-filter: blur(5px);
+            box-shadow: inset 0 0 5px rgba(0, 255, 255, 0.2);
+        }
+        input:focus, textarea:focus { 
+            outline: none; border-color: var(--accent-color-2); 
+            box-shadow: 0 0 15px var(--glow-strong), inset 0 0 8px var(--accent-glow); 
+        }
+        
+        textarea { min-height: 100px; resize: vertical; }
+
+        .modal-overlay { 
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+            background: rgba(0, 0, 0, 0.8); backdrop-filter: blur(15px); 
+            display: none; align-items: center; justify-content: center; z-index: 1000; 
+        }
+        .modal-content { 
+            background-color: var(--bg-secondary-ui); padding: 30px; border-radius: 18px; 
+            width: 90%; max-width: 500px; position: relative; 
+            border-top: 5px solid; 
+            border-image-slice: 1; 
+            border-image-source: linear-gradient(to right, var(--accent-color-1), var(--accent-color-2));
+            backdrop-filter: blur(15px);
+            box-shadow: 0 0 25px var(--shadow-color-ui);
+        }
+        .modal-content h2, .modal-content h3 { 
+            color: var(--accent-color-2); margin-top: 0; 
+            text-shadow: var(--black-outline), 0 0 10px var(--accent-glow); /* Added black outline */
+        }
+        .close-modal { 
+            position: absolute; top: 10px; right: 15px; background: none; border: none; 
+            color: var(--accent-color-2); font-size: 30px; cursor: pointer; 
+            text-shadow: var(--black-outline), 0 0 12px var(--glow-strong); /* Stronger glow for icon */
+        }
+        #history-list { 
+            list-style-type: none; padding: 0; max-height: 150px; overflow-y: auto; 
+            margin-top: 15px; border: 1px solid var(--border-color-ui); padding: 10px; 
+            border-radius: 10px; background-color: var(--bg-primary-ui); 
+            box-shadow: inset 0 0 5px var(--shadow-color-ui);
+        }
+        #history-list li {
+            padding: 8px 0; border-bottom: 1px dashed rgba(0, 255, 255, 0.1);
+            color: var(--text-secondary-ui);
+        }
+        #history-list li:last-child { border-bottom: none; }
+        
+        #main-menu-modal .modal-content { text-align: center; max-height: 90vh; overflow-y: auto; }
+        #main-menu-modal hr { border: none; border-top: 1px solid var(--border-color-ui); margin: 25px 0; }
+        #main-menu-modal .theme-buttons-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-top: 15px; }
+        .theme-btn { 
+            font-family: 'Russo One', sans-serif; 
+            width: 100%; padding: 12px; border-radius: 8px; 
+            background-color: var(--bg-tertiary-ui); color: var(--text-primary-ui); 
+            font-size: 1rem; cursor: pointer; border: 2px solid var(--border-color-ui); 
+            transition: all 0.2s ease-in-out;
+            text-shadow: var(--black-outline), 0 0 5px var(--accent-glow);
+        }
+        .theme-btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px var(--accent-glow);
+            animation: pulse-glow 1.5s infinite;
+        }
+        .theme-btn.active {
+            border-color: var(--accent-color-2);
+            box-shadow: 0 0 10px var(--accent-glow);
+            transform: scale(1.02);
+            animation: pulse-glow 1.5s infinite;
+        }
+        .theme-btn:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+            filter: grayscale(100%);
+            box-shadow: none;
+            animation: none;
+        }
+
+        /* --- Thunder ID Card --- */
+        .thunder-id-card {
+            padding: 20px; margin: 15px auto; max-width: 250px;
+            background-color: var(--bg-secondary-ui);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--border-color-ui);
+            box-shadow: 0 4px 15px var(--shadow-color-ui);
+            border-radius: 18px;
+        }
+        .thunder-id-details {
+            margin-top: 15px; padding-top: 15px; border-top: 1px solid var(--border-color-ui);
+        }
+        #main-menu-thunder-username-display { /* Corrected ID */
+            font-family: 'Russo One', sans-serif; font-size: 1.3rem; color: var(--text-primary-ui); margin: 0 0 5px 0;
+            text-shadow: var(--black-outline), 0 0 8px var(--accent-glow); /* Added black outline */
+            display: flex; /* Make it flex to align username and badge */
+            align-items: center; /* Vertically align items */
+            justify-content: center; /* Center horizontally */
+            flex-wrap: wrap; /* Allow wrapping */
+        }
+        #main-menu-thunder-id-value { /* Corrected ID */
+            font-family: 'Roboto', sans-serif; font-size: 0.9rem; color: var(--text-secondary-ui); margin: 0; word-wrap: break-word;
+        }
+        #main-menu-thunder-id-value strong { /* Corrected ID */
+            font-weight: 600; color: var(--text-primary-ui); 
+            text-shadow: var(--black-outline); /* Added black outline */
+        }
+
+        /* --- Server Info Layout --- */
+        .server-info-bar {
+            display: flex; align-items: center; justify-content: space-between;
+            gap: 10px; background-color: var(--bg-tertiary-ui); padding: 12px 18px;
+            border-radius: 15px; border: 1px solid var(--border-color-ui);
+            box-shadow: 0 2px 10px var(--shadow-color-ui);
+            backdrop-filter: blur(8px);
+        }
+        .server-info-bar p { margin: 0; color: var(--text-secondary-ui); text-align: left; font-size: 0.95rem; }
+        .server-info-bar strong { color: var(--accent-color-2); text-shadow: var(--black-outline), 0 0 5px var(--accent-glow); }
+        .server-info-bar .button-group button {
+            padding: 8px 12px; font-size: 0.85rem; border-radius: 8px;
+            font-family: 'Russo One', sans-serif;
+            box-shadow: 0 0 8px var(--shadow-color-ui);
+        }
+
+
+        .success-icon-container { width: 100px; height: 100px; margin-bottom: 20px; }
+        .success-icon-container .animated-check { animation: scale-up 0.5s ease-out forwards; }
+        .success-icon-container .animated-check__circle { stroke: var(--success-green); }
+        .success-icon-container .animated-check__check { stroke: var(--success-green); stroke-dasharray: 36; stroke-dashoffset: 36; animation: draw-check 0.4s 0.1s ease-out forwards; }
+        
+        /* Removed pending history list styling as the feature is removed */
+
+        .server-item { 
+            background-color: var(--bg-secondary-ui); padding: 18px; border-radius: 15px; 
+            margin-bottom: 15px; font-family: 'Russo One', sans-serif; font-size: 1.4rem; 
+            cursor: pointer; transition: all 0.3s ease; text-align: center; 
+            border-left: 5px solid var(--accent-color-1); 
+            box-shadow: 0 4px 10px var(--shadow-color-ui);
+            backdrop-filter: blur(10px);
+        }
+        .server-item:hover { 
+            background-color: var(--bg-tertiary-ui); transform: scale(1.03); 
+            border-left-color: var(--accent-color-2);
+            box-shadow: 0 0 20px var(--glow-strong);
+        }
+
+        /* NEW: Bottom Navigation Bar */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            display: none; /* Hidden by default, shown after login */
+            justify-content: space-around;
+            align-items: center;
+            padding: 10px 0;
+            background: rgba(0, 0, 51, 0.7); /* Dark blue background with transparency */
+            backdrop-filter: blur(15px);
+            border-top: 1px solid var(--border-color-ui);
+            box-shadow: 0 -5px 20px var(--shadow-color-ui);
+            z-index: 1000;
+        }
+
+        .bottom-nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: var(--text-secondary-ui); /* Light blue/grey for inactive */
+            text-decoration: none;
+            font-size: 0.75rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            padding: 5px 0;
+            flex-grow: 1;
+            max-width: 120px;
+            text-shadow: var(--black-outline);
+        }
+
+        .bottom-nav-item i {
+            font-size: 1.6rem;
+            margin-bottom: 5px;
+            color: var(--text-secondary-ui); /* Light blue/grey for inactive icons */
+            transition: all 0.3s ease;
+            text-shadow: var(--black-outline);
+        }
+
+        .bottom-nav-item.active,
+        .bottom-nav-item:hover {
+            color: var(--accent-color-2); /* Electric Blue for active/hover text */
+            text-shadow: var(--black-outline), 0 0 10px var(--glow-strong);
+            transform: translateY(-2px);
+        }
+        .bottom-nav-item.active i,
+        .bottom-nav-item:hover i {
+            color: var(--accent-color-2); /* Electric Blue for active/hover icons */
+            text-shadow: var(--black-outline), 0 0 15px var(--glow-strong);
+        }
+        
+        /* Premium welcome modal */
+        #premium-welcome-modal .modal-content {
+            border-image-source: linear-gradient(to right, var(--accent-color-1), var(--accent-color-2));
+            text-align: center;
+        }
+        #premium-welcome-modal h2 {
+            color: var(--accent-color-2);
+            animation: text-glow 2s infinite alternate;
+        }
+        #premium-welcome-modal p {
+            color: var(--text-primary-ui);
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+        }
+        /* REMOVED: Old Premium user star badge CSS. Replaced by premium-badge-img */
+
+        /* Ad container styling */
+        #ad-container {
+            margin: 20px auto;
+            max-width: 320px;
+            min-height: 50px;
+            background-color: var(--bg-tertiary-ui);
+            border: 1px dashed var(--border-color-ui);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: var(--text-secondary-ui);
+            font-size: 0.9rem;
+            text-align: center;
+            overflow: hidden;
+            border-radius: 8px; /* Added border-radius */
+        }
+        #ad-container.hidden {
+            display: none;
+        }
+
+        /* NEW: Gift Box Modal specific styles */
+        #gift-box-modal .modal-content {
+            text-align: center;
+            background-color: var(--bg-primary-ui); /* Darker background for focus */
+        }
+
+        #gift-box-modal .gift-image-container {
+            position: relative;
+            width: 150px; /* Size of the gift box */
+            height: 150px;
+            margin: 20px auto;
+            cursor: pointer;
+            transition: transform 0.3s ease-in-out;
+            border-radius: 15px; /* So the shadow respects the image's shape */
+            box-shadow: 0 0 20px rgba(255, 193, 7, 0.7); /* Gold-like glow */
+        }
+        #gift-box-modal .gift-image-container:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.9); /* Stronger gold glow on hover */
+        }
+
+        #gift-box-modal .gift-image-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            filter: drop-shadow(0 0 10px rgba(255, 193, 7, 0.5)); /* Subtle glow on the image itself */
+        }
+
+        #gift-box-modal .gift-image-container.claimed {
+            cursor: default; /* No more clicking after claiming */
+            animation: none;
+            filter: grayscale(80%); /* Dim the image after claiming */
+            opacity: 0.7;
+        }
+
+        #gift-box-modal .claimed-amount-display {
+            font-family: 'Russo One', sans-serif;
+            font-size: 2.5rem;
+            color: var(--success-green); /* Green for claimed amount */
+            text-shadow: var(--black-outline), 0 0 15px var(--success-green);
+            margin-top: 20px;
+            display: none; /* Hidden until claimed */
+            animation: splash-glow 2s infinite alternate; /* Make it flashy! */
+        }
+    </style>
+</head>
+<body>
+
+<!-- Background Thunder Emoji -->
+<div id="background-thunder-emoji">⚡</div>
+
+<!-- Audio elements for background music and click sounds -->
+<audio id="background-music" src="01.mp3" loop preload="auto"></audio>
+<audio id="click-sound" src="click.mp3" preload="auto"></audio>
+
+<!-- Splash Screen: Displays during initial app loading. -->
+<div id="splash-screen" class="splash">
+    <img src="icon.png" alt="Thunder Clash Logo" id="splash-logo">
+    <div id="splash-text">Thunder Clash</div>
+    <div class="splash-spinner"></div>
+    <div id="developer-text">Developer: Sunny Kumar</div>
+</div>
+
+<div class="container">
+    <!-- Server Connection Screen: Shown when no server is connected. -->
+    <div id="server-connection-container" class="fullscreen-container glass-card">
+        <div class="icon"><i class="fa-solid fa-tower-broadcast"></i></div>
+        <h2 id="server-connection-title">No Internet</h2>
+        <p id="server-connection-message">You must be connected to an active server to use the app.</p>
+        <button id="server-connection-button" class="join-button" onclick="showServerList()">Connect to Server</button>
+    </div>
+
+    <!-- Server List Screen: Displays available servers to connect to. -->
+    <div id="server-list-container">
+        <h2 class="page-header">Activate Server</h2>
+        <div style="display: flex; justify-content: center;">
+            <ul id="server-list"></ul>
+        </div>
+    </div>
+    
+    <!-- Server Login Screen: For entering server-specific password and activation code. -->
+    <div id="server-login-container">
+         <div class="details-header">
+            <button class="back-button" onclick="showServerList()"><i class="fa-solid fa-arrow-left"></i></button>
+            <h2 id="server-login-title" class="page-header">Connect to Server</h2>
+            <div style="width: 40px;"></div>
+        </div>
+        <form id="server-login-form" onsubmit="event.preventDefault(); handleServerConnect();" class="glass-card" style="padding: 20px;">
+            <input type="password" id="server-password" placeholder="Server Password" required>
+            <input type="text" id="server-activation-code" placeholder="Server Activation Code" required>
+            <button type="submit" class="join-button">Connect</button>
+        </form>
+    </div>
+
+    <!-- Login/Sign Up Section: Allows users to log in or create a new account. -->
+    <div id="login-container" class="fullscreen-container glass-card">
+        <h1 id="form-title">Login</h1>
+        <form id="login-form" onsubmit="event.preventDefault(); handleLogin();">
+            <input type="text" id="login-username" placeholder="Enter your @username" required>
+            <input type="password" id="login-password" placeholder="Enter your password" required>
+            <button type="submit" class="join-button">Login</button>
+            <p class="form-switcher">Don't have an account? <a href="#" onclick="showSignUpForm(event)">Sign Up</a></p>
+        </form>
+        <form id="signup-form" style="display: none;" onsubmit="event.preventDefault(); handleSignUp();">
+            <input type="text" id="signup-name" placeholder="Enter your full name" required>
+            <input type="text" id="signup-username" placeholder="Choose your @username" required>
+            <input type="password" id="signup-password" placeholder="Create a password" required>
+            <input type="number" id="signup-pin" placeholder="Create a 4-digit Thunder PIN" required>
+            <button type="submit" class="join-button">Sign Up</button>
+            <p class="form-switcher">Already have an account? <a href="#" onclick="showLoginForm(event)">Login</a></p>
+        </form>
+    </div>
+
+    <!-- Banned Screen: Displayed when a user's account is suspended. -->
+    <div id="banned-container" class="fullscreen-container glass-card">
+        <div class="banned-icon"><i class="fa-solid fa-lock"></i></div>
+        <h2>Account Suspended</h2>
+        <p>Your account has been banned by an administrator. Please contact support for assistance.</p>
+        <button class="join-button" onclick="showReviewRequestForm()">Request a Review</button>
+        <button class="logout-button" onclick="handleFullLogout()">Back to Login</button>
+    </div>
+    
+    <!-- Review Request Screen: Allows a banned user to send a review request. -->
+    <div id="review-request-container" class="fullscreen-container glass-card">
+        <div class="banned-icon"><i class="fa-solid fa-file-signature"></i></div>
+        <h2>Request Account Review</h2>
+        <p>Please type a message explaining why your account should be reviewed. This is optional.</p>
+        <form id="review-request-form" onsubmit="event.preventDefault(); sendReviewRequest();">
+            <textarea id="review-message" placeholder="Type your message here... (optional)"></textarea>
+            <button type="submit" class="join-button">Send Request</button>
+            <button type="button" class="logout-button" onclick="handleFullLogout()">Cancel & Go to Login</button>
+        </form>
+    </div>
+
+    <!-- Maintenance Screen: Shown when the app is under maintenance. -->
+    <div id="maintenance-container" class="fullscreen-container glass-card">
+        <div class="maintenance-icon"><i class="fa-solid fa-person-digging"></i></div>
+        <h2>Under Maintenance</h2>
+        <p>The app is currently undergoing maintenance. Please check back later. For any problems, contact admin.</p>
+    </div>
+
+    <!-- Main App Section (Home Screen): The primary dashboard after login. -->
+    <div id="app-container">
+        <div class="details-header">
+            <div class="menu-icon-container" onclick="openMainMenuModal()"> <i class="fa-solid fa-bolt"></i> </div> <!-- Changed to thunderbolt icon -->
+            <header class="app-top-bar" style="flex-grow:1;" onclick="showScreen('app-container')">Thunder Clash</header>
+            <div style="width: 40px;"></div> <!-- Spacer -->
+        </div>
+        
+        <!-- Consolidated Home Header with new button arrangement -->
+        <div class="home-header">
+            <div class="wallet-summary" id="wallet-summary-header">
+                <div id="user-display" class="welcome-text">Welcome, <span>@username</span></div>
+                <div id="header-balance-display">₹0.00</div>
+            </div>
+            <div class="header-actions">
+                <button class="header-action-btn" onclick="showSendMoneyPage()">
+                    <i class="fa-solid fa-paper-plane"></i> <!-- Changed icon to send -->
+                    <span>Send</span> <!-- Changed text to Send -->
+                </button>
+            </div>
+        </div>
+
+        <main>
+            <h2 class="page-header">LIVE MATCHES</h2>
+            <!-- Game Selection Grid: Buttons to select different game types. -->
+            <div id="game-selection-grid">
+                <button class="game-selection-btn" onclick="showGameMatches('filework', 'File Work Matches')">
+                    <img src="wa3.png" alt="File Work">
+                    <span>File Work</span>
+                </button>
+                <button class="game-selection-btn" onclick="showGameMatches('freefire', 'Free Fire Matches')">
+                    <img src="free1.png" alt="Free Fire">
+                    <span>Free Fire</span>
+                </button>
+                <button class="game-selection-btn" onclick="showGameMatches('ludo', 'Ludo Matches')">
+                    <img src="ludo2.png" alt="Ludo">
+                    <span>Ludo</span>
+                </button>
+                <button class="game-selection-btn" onclick="showGameMatches('mysterybox', 'Mystery Box Matches')">
+                    <img src="mb4.png" alt="Mystery Box">
+                    <span>Mystery Box</span>
+                </button>
+            </div>
+        </main>
+        
+        <!-- Ad Container for normal users: Displays advertisements if the user is not premium. -->
+        <div id="ad-container" class="hidden">
+            <!-- Ads will be dynamically loaded here by JavaScript if the user is not premium -->
+            <p>Advertisement</p>
+        </div>
+    </div>
+
+    <!-- Game Specific Matches Section: Displays matches for a selected game. -->
+    <div id="game-matches-container">
+        <div class="details-header">
+            <button class="back-button" onclick="showScreen('app-container')"><i class="fa-solid fa-arrow-left"></i></button>
+            <h2 id="game-matches-title" class="page-header"></h2> <!-- Dynamic Title -->
+            <div style="width: 40px;"></div>
+        </div>
+        <!-- Matches for the selected game will be loaded here -->
+        <div id="game-specific-matches-list"></div>
+    </div>
+
+    <!-- Profile Page: Allows users to view their profile, change password, and contact support. -->
+    <div id="profile-page-container">
+        <div class="details-header"> 
+            <button class="back-button" onclick="showScreen('app-container')"><i class="fa-solid fa-arrow-left"></i></button> 
+            <h2 class="page-header">My Profile</h2> 
+            <div style="width: 40px;"></div> 
+        </div>
+        <div class="details-content glass-card" style="padding: 20px;">
+            <p style="text-align: center; font-size: 1.2rem; margin-bottom: 25px;">
+                Logged in as: <strong id="profile-username-display" style="color: var(--accent-color-2); text-shadow: var(--black-outline), 0 0 5px var(--accent-glow);">@username</strong>
+            </p>
+
+            <h3 style="margin-top: 30px;">Change Password</h3>
+            <form id="change-password-form" onsubmit="event.preventDefault(); handleChangePassword();">
+                <input type="password" id="old-password" placeholder="Old Password" required>
+                <input type="password" id="new-password" placeholder="New Password" required>
+                <input type="password" id="confirm-new-password" placeholder="Confirm New Password" required>
+                <button type="submit" class="join-button">Update Password</button>
+            </form>
+
+            <h3 style="margin-top: 40px;">Contact Us</h3>
+            <p style="text-align: center; font-size: 1rem; color: var(--text-secondary-ui);">
+                For support or inquiries, please reach out to us on Telegram:
+                <br>
+                <a id="telegram-link" href="#" target="_blank" style="color: var(--accent-color-2); text-decoration: none; font-weight: bold; text-shadow: var(--black-outline), 0 0 8px var(--accent-glow); display: inline-block; margin-top: 10px;">
+                    <i class="fab fa-telegram-plane"></i> <span id="telegram-id-display">@thunderclash</span>
+                </a>
+            </p>
+            <button class="logout-button" style="margin-top: 40px; width: 100%;" onclick="handleFullLogout()">Logout</button>
+        </div>
+    </div>
+
+
+    <!-- Match Details Container: Displays specific details of a chosen match. -->
+    <div id="match-details-container">
+         <div class="details-header"> <button class="back-button" onclick="goBackFromMatchDetails()"><i class="fa-solid fa-arrow-left"></i></button> <h2 id="details-title">Match Details</h2> <div style="width: 40px;"></div> </div>
+        <div class="details-content glass-card"> <p><strong>Time:</strong> <span id="details-time"></span></p> <p><strong>Prize Pool:</strong> <span id="details-prize"></span></p> <p><strong>Entry Fee:</strong> <span id="details-entry"></span></p> <p><strong id="details-uid-label">Your Game ID:</strong> <span id="details-uid"></span></p> <button id="finish-match-btn" class="join-button" onclick="handleFinishMatch()">Finish Match</button> </div>
+    </div>
+    <!-- Send Money Container: Allows users to send money to other Thunder IDs. -->
+    <div id="send-money-container">
+        <div class="details-header"> <button class="back-button" onclick="showScreen('app-container')"><i class="fa-solid fa-arrow-left"></i></button> <h2 class="page-header">Send to Thunder ID</h2> <div style="width: 40px;"></div> </div>
+        <div id="send-money-thunder-id-form" style="padding: 0 15px;" class="glass-card"> 
+            <input type="text" id="thunder-id-recipient" placeholder="Enter recipient's Thunder ID" required> 
+            <input type="number" id="thunder-id-amount" placeholder="Enter amount" required> 
+            <button class="submit-button" onclick="handleSendByThunderId()">Submit</button> 
+        </div>
+    </div>
+    <!-- PIN Verification Container: For confirming transactions with a Thunder PIN. -->
+    <div id="pin-verification-container" class="fullscreen-container glass-card">
+        <h2 class="page-header" style="font-size: 2.5rem;">Enter Your PIN</h2> <input type="password" id="thunder-pin-input" inputmode="numeric" pattern="[0-9]*" autocomplete="one-time-code" placeholder="****" maxlength="4" style="text-align:center; font-size: 2rem; letter-spacing: 1rem; max-width: 200px; margin-bottom: 30px;"> <button class="join-button" style="width: 100%; max-width: 200px;" onclick="handlePinVerification()">Send Payment</button> <button class="logout-button" style="margin-top: 10px; width: 100%; max-width: 200px;" onclick="cancelPinVerification()">Cancel</button>
+    </div>
+    <!-- Transfer Success Container: Confirms a successful money transfer. -->
+    <div id="transfer-success-container" class="fullscreen-container glass-card">
+        <div class="success-icon-container">
+            <svg class="animated-check" viewBox="0 0 52 52"> <circle class="animated-check__circle" cx="26" cy="26" r="25" fill="none"/> <path class="animated-check__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/> </svg>
+        </div>
+        <h2>Transfer Successful!</h2>
+        <button class="join-button go-home-btn" onclick="showScreen('app-container')">Go to Home</button>
+    </div>
+
+</div>
+
+<!-- Modals -->
+<!-- Wallet Modal: Displays user's balance, withdrawal options, and transaction history. -->
+<div id="wallet-modal" class="modal-overlay">
+    <div class="modal-content">
+        <button class="close-modal" onclick="closeModal(event, 'wallet-modal')">×</button> <h2>My Wallet</h2> <div class="balance-info" id="balance-display-modal">Balance: ₹0</div>
+        <div class="form-section"> <h3>Withdraw Funds</h3> <form onsubmit="handleWithdraw(event)"> <input type="number" id="withdraw-amount" placeholder="Amount" min="1" required> <input type="text" id="upi-id" placeholder="UPI ID (e.g., user@upi)" required> <button class="join-button" type="submit">Request Payout</button> </form> </div>
+        <div class="form-section"> <h3>Transaction History</h3> <ul id="history-list"><li>No history found.</li></ul> </div>
+    </div>
+</div>
+<!-- Main Menu Modal: Provides server info, user ID, and theme selection. -->
+<div id="main-menu-modal" class="modal-overlay">
+    <div class="modal-content">
+        <button class="close-modal" onclick="closeModal(event, 'main-menu-modal')">×</button>
+        
+        <div class="server-info-bar">
+            <p>Server: <strong id="connected-server-name">...</strong></p>
+            <div class="button-group">
+                <button class="view-details-button" onclick="closeModal(event, 'main-menu-modal'); showServerList()">Switch</button>
+                <button class="logout-button" style="background-image: linear-gradient(45deg, var(--error-red), #e60000);" onclick="closeModal(event, 'main-menu-modal'); disconnectFromServer()">Exit</button>
+            </div>
+        </div>
+        
+        <hr>
+        
+        <h2 style="text-align: center;">My Thunder ID</h2>
+        <div class="thunder-id-card">
+            <!-- QR Code removed. Only text details below will be shown. -->
+            <div class="thunder-id-details">
+                <p id="main-menu-thunder-username-display"></p> <!-- Corrected ID -->
+                <p id="main-menu-thunder-id-value"></p> <!-- Corrected ID -->
+            </div>
+        </div>
+
+        <hr>
+        <h3 style="text-align: center;">Change Accent Theme</h3>
+        <div class="theme-buttons-grid">
+            <button class="theme-btn active" style="border-color:var(--accent-color-2)" onclick="changeTheme('thunderclash')">Thunder Clash</button> <!-- Default Thunder Clash Theme -->
+            <button class="theme-btn" style="border-color:#ff6d00" onclick="changeTheme('orange')">Orange</button>
+            <button class="theme-btn" style="border-color:#ffc107" onclick="changeTheme('yellow')">Yellow</button>
+            <button class="theme-btn" style="border-color:#4CAF50" onclick="changeTheme('green')">Green</button>
+            <button class="theme-btn" style="border-color:#007bff" onclick="changeTheme('blue')">Blue</button>
+            <button class="theme-btn" style="border-color:#f44336" onclick="changeTheme('red')">Red</button>
+            <!-- PREMIUM ACCENT THEMES -->
+            <button class="theme-btn" style="border-color:#9C27B0" onclick="changeTheme('purple')" data-premium-only="true">Purple</button>
+            <button class="theme-btn" style="border-color:#009688" onclick="changeTheme('teal')" data-premium-only="true">Teal</button>
+            <button class="theme-btn" style="border-color:#E91E63" onclick="changeTheme('pink')" data-premium-only="true">Pink</button>
+            <button class="theme-btn" style="border-color:#00BCD4" onclick="changeTheme('cyan')" data-premium-only="true">Cyan</button>
+            <button class="theme-btn" style="border-color:#3F51B5" onclick="changeTheme('indigo')" data-premium-only="true">Indigo</button>
+            <button class="theme-btn" style="border-color:#CDDC39" onclick="changeTheme('lime')" data-premium-only="true">Lime</button>
+            <button class="theme-btn" style="border-color:#607D8B" onclick="changeTheme('slate')" data-premium-only="true">Slate</button>
+            <button class="theme-btn" style="border-color:#FFD700" onclick="changeTheme('gold')" data-premium-only="true">Gold</button>
+            <button class="theme-btn" style="border-color:#C0C0C0" onclick="changeTheme('silver')" data-premium-only="true">Silver</button>
+            <button class="theme-btn" style="border-color:#CD7F32" onclick="changeTheme('bronze')" data-premium-only="true">Bronze</button>
+            <button class="theme-btn" style="border-color:#00FFFF" onclick="changeTheme('aqua')" data-premium-only="true">Aqua</button>
+            <button class="theme-btn" style="border-color:#FF007F" onclick="changeTheme('vividpink')" data-premium-only="true">Vivid Pink</button>
+            <button class="theme-btn" style="border-color:#228B22" onclick="changeTheme('forest')" data-premium-only="true">Forest</button>
+            <button class="theme-btn" style="border-color:#4169E1" onclick="changeTheme('royalblue')" data-premium-only="true">Royal Blue</button>
+            <button class="theme-btn" style="border-color:#EE82EE" onclick="changeTheme('violet')" data-premium-only="true">Violet</button>
+            <button class="theme-btn" style="border-color:#FF7F50" onclick="changeTheme('sunset')" data-premium-only="true">Sunset</button>
+            <button class="theme-btn" style="border-color:#D2042D" onclick="changeTheme('cherry')" data-premium-only="true">Cherry</button>
+        </div>
+        <hr>
+        <button class="dismiss-button" style="margin-top: 10px; width: 100%; background-image: linear-gradient(45deg, var(--accent-color-1), var(--accent-color-2)); color: var(--gradient-text);" onclick="closeModal(event, 'main-menu-modal')">Close Menu</button>
+    </div>
+</div>
+<!-- Notice Modal: Displays administrative announcements to the user. -->
+<div id="notice-modal" class="modal-overlay">
+    <div class="modal-content"> <button class="close-modal" onclick="closeModal(event, 'notice-modal')">×</button> <h2><i class="fa-solid fa-envelope-open-text"></i> Admin Notice</h2> <p id="notice-message-content">No new notices.</p> <button class="dismiss-button join-button" onclick="deleteNotice()">Dismiss and Delete</button> </div>
+</div>
+
+<!-- Premium Welcome Modal: Welcomes new premium users. -->
+<div id="premium-welcome-modal" class="modal-overlay">
+    <div class="modal-content">
+        <button class="close-modal" onclick="closeModal(event, 'premium-welcome-modal')">×</button>
+        <h2>🎉 Congratulations! 🎉</h2>
+        <p>You are now a **PREMIUM** user!</p>
+        <p>Enjoy exclusive themes and an ad-free experience.</p>
+        <button class="join-button" onclick="closeModal(event, 'premium-welcome-modal')">Awesome!</button>
+    </div>
+</div>
+
+<!-- Gift Box Modal: Allows users to claim random gifts. -->
+<div id="gift-box-modal" class="modal-overlay">
+    <div class="modal-content">
+        <button class="close-modal" onclick="closeModal(event, 'gift-box-modal')">×</button>
+        <h2>🎁 You've Received a Gift! 🎁</h2>
+        <p class="gift-message" id="gift-message-text">Click the box to reveal your surprise!</p>
+        <div class="gift-image-container" onclick="claimGift()">
+            <img src="gift.png" alt="Gift Box" id="gift-box-image">
+        </div>
+        <p class="claimed-amount-display" id="claimed-gift-amount"></p>
+        <button class="join-button" style="margin-top: 20px;" onclick="closeModal(event, 'gift-box-modal');">Close</button>
+    </div>
+</div>
+
+
+<!-- Bottom Navigation Bar: Provides quick access to main sections like Profile, Home, and Wallet. -->
+<nav class="bottom-nav">
+    <a href="#" class="bottom-nav-item" onclick="showProfilePage(); activateBottomNavItem(this);">
+        <i class="fa-solid fa-user"></i>
+        <span>Profile</span>
+    </a>
+    <a href="#" class="bottom-nav-item active" onclick="showScreen('app-container'); activateBottomNavItem(this);">
+        <i class="fa-solid fa-house"></i>
+        <span>Home</span>
+    </a>
+    <a href="#" class="bottom-nav-item" onclick="openWalletModal(); activateBottomNavItem(this);">
+        <i class="fa-solid fa-wallet"></i>
+        <span>Wallet</span>
+    </a>
+</nav>
+
+
+<!-- Firebase SDK, QR Lib & QR Scanner Lib (QR Lib is no longer used for display, but kept as a dependency if needed for other hidden functionality) -->
+<script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/davidshimjs/qrcodejs/qrcode.min.js"></script>
+
+<script>
+    const firebaseConfig = {
+  apiKey: "AIzaSyAE4PiVrCW5prjc94cEisT5WT7oSJw6pWI",
+  authDomain: "thunder-clash-94e7b.firebaseapp.com",
+  databaseURL: "https://thunder-clash-94e7b-default-rtdb.firebaseio.com",
+  projectId: "thunder-clash-94e7b",
+  storageBucket: "thunder-clash-94e7b.firebasestorage.app",
+  messagingSenderId: "323885591874",
+  appId: "1:323885591874:web:341ad58d0d416e19716cdb"
+};
+    
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
+
+    const backgroundMusic = document.getElementById('background-music');
+    backgroundMusic.volume = 0.7; // Set background music volume to 70%
+
+    let musicStarted = false;
+    function startBackgroundMusic() {
+        if (!musicStarted) {
+            backgroundMusic.play().then(() => {
+                musicStarted = true;
+                document.body.removeEventListener('click', startBackgroundMusic, { once: true });
+            }).catch(error => {
+                console.log("Background music autoplay was prevented. Waiting for user interaction.");
+                document.body.addEventListener('click', startBackgroundMusic, { once: true });
+            });
+        }
+    }
+
+    function playClickSound() {
+        const clickSound = document.getElementById('click-sound');
+        if (clickSound) {
+            clickSound.currentTime = 0;
+            clickSound.play().catch(error => {});
+        }
+    }
+    document.addEventListener('click', playClickSound);
+
+    let currentUser = null;
+    let currentMatchData = null;
+    let pendingTransferData = null;
+    let currentNotice = null;
+    let noticeAlreadyShown = false;
+    let selectedServerId = null;
+    let serverStatusListener = null;
+    let isUnlimitedBalanceMode = false;
+    let isCurrentUserPremium = false; // NEW: Track premium status
+    let maintenanceCheckInterval = null; // To store the interval for maintenance checks
+    let previousScreen = 'app-container'; // Keep track of the previous screen for back navigation
+
+    let currentGiftId = null; // NEW: Stores the ID of the current pending gift
+    let currentGiftData = null; // NEW: Stores the data of the current pending gift
+
+    // Variables to store active Firebase listeners for efficient management
+    let matchesListener = null;
+    let userBalanceListener = null; // For the main user balance and transactions
+    let userNoticeListener = null; // For user specific notices
+
+
+    const screens = [
+        'login-container', 'banned-container', 'app-container', 
+        'match-details-container', 'send-money-container', 'transfer-success-container', 
+        'pin-verification-container', 'maintenance-container',
+        'server-connection-container', 'server-list-container', 'server-login-container',
+        'review-request-container', 'profile-page-container', 'game-matches-container'
+    ];
+    // List of classes for accent themes
+    const THEME_CLASSES = [
+        'orange-theme', 'yellow-theme', 'blue-theme', 'red-theme', 'green-theme', 'purple-theme', 
+        'teal-theme', 'pink-theme', 'cyan-theme', 'indigo-theme', 'lime-theme', 'slate-theme',
+        'gold-theme', 'silver-theme', 'bronze-theme', 'aqua-theme', 'vividpink-theme', 
+        'forest-theme', 'royalblue-theme', 'violet-theme', 'sunset-theme', 'cherry-theme',
+        'thunderclash-theme' /* New default theme class */
+    ];
+
+    // List of premium themes (these affect accent colors, not overall mode)
+    const PREMIUM_THEMES = [
+        'purple', 'teal', 'pink', 'cyan', 'indigo', 'lime', 'slate',
+        'gold', 'silver', 'bronze', 'aqua', 'vividpink', 'forest', 'royalblue', 'violet', 'sunset', 'cherry'
+    ];
+
+    // List of themes allowed for non-premium users
+    const ALLOWED_NORMAL_THEMES = ['thunderclash', 'orange', 'yellow', 'green', 'blue', 'red'];
+
+
+    // --- Utility Functions ---
+    /**
+     * Opens a modal by setting its display style to 'flex'.
+     * @param {Event} event - The click event that triggered the modal opening.
+     * @param {string} modalId - The ID of the modal element to open.
+     */
+    function openModal(event, modalId) {
+        if(event) event.stopPropagation();
+        const modal = document.getElementById(modalId);
+        if(modal) modal.style.display = 'flex';
+    }
+
+    /**
+     * Closes a modal by setting its display style to 'none'.
+     * This function is typically called when the close button is clicked or outside the modal.
+     * @param {Event} event - The event that triggered the modal closing (e.g., click, keydown).
+     * @param {string} modalId - The ID of the modal element to close.
+     */
+    function closeModal(event, modalId) { 
+        if (event && (event.key === 'Escape' || event.target.classList.contains('close-modal') || event.target.id === modalId)) { 
+            const modal = document.getElementById(modalId); 
+            if(modal) modal.style.display = 'none'; 
+        } 
+    }
+    // --- End Utility Functions ---
+
+
+    /**
+     * Initializes the app after the splash screen fades out.
+     * Handles splash screen fade-out and initial setup logic.
+     */
+    document.addEventListener('DOMContentLoaded', () => {
+        const splashScreen = document.getElementById('splash-screen');
+        const bottomNav = document.querySelector('.bottom-nav');
+
+        document.querySelector('.container').style.display = 'none';
+        if (bottomNav) bottomNav.style.display = 'none';
+
+        setTimeout(() => {
+            splashScreen.style.opacity = '0'; 
+            setTimeout(() => {
+                splashScreen.style.display = 'none';
+                initialAppSetup(); 
+                startBackgroundMusic(); 
+            }, 500); // 0.5s for fade out
+        }, 2000); // 2 seconds visible duration
+    });
+    
+    /**
+     * Activates a specific item in the bottom navigation bar.
+     * Removes 'active' class from all items and adds it to the provided element.
+     * @param {HTMLElement} element - The navigation item element to activate.
+     */
+    function activateBottomNavItem(element) {
+        document.querySelectorAll('.bottom-nav-item').forEach(item => {
+            item.classList.remove('active');
+        });
+        if (element) {
+            element.classList.add('active');
+        }
+    }
+
+    /**
+     * Checks the maintenance status of the app from Firebase config.
+     * Displays a maintenance screen if active.
+     * @returns {Promise<boolean>} - True if maintenance is active, false otherwise.
+     */
+    async function checkMaintenanceStatus() {
+        try {
+            const configRef = db.ref('config');
+            const configSnapshot = await configRef.once('value');
+            const config = configSnapshot.val() || {};
+            const isManualMaintenanceOn = config.isMaintenanceMode || false;
+            const scheduledMaintenance = config.scheduledMaintenance;
+            const now = Date.now();
+
+            if (isManualMaintenanceOn) {
+                document.querySelector('.container').style.display = 'block';
+                showScreen('maintenance-container');
+                return true;
+            }
+
+            if (scheduledMaintenance && scheduledMaintenance.startTime && scheduledMaintenance.endTime) {
+                const startTime = scheduledMaintenance.startTime;
+                const endTime = scheduledMaintenance.endTime;
+
+                if (now >= startTime && now <= endTime) {
+                    document.querySelector('.container').style.display = 'block';
+                    showScreen('maintenance-container');
+                    return true;
+                }
+            }
+            return false;
+        } catch (error) {
+            console.error("Error checking maintenance status:", error);
+            return false; 
+        }
+    }
+
+    /**
+     * Completes the login process after successful authentication and server connection.
+     * Sets current user, server, checks premium status, applies theme, and loads user data.
+     * @param {string} loggedInUsername - The username of the logged-in user.
+     * @param {string} currentServerId - The ID of the currently connected server.
+     */
+    async function finalizeLoginSuccess(loggedInUsername, currentServerId) {
+        currentUser = loggedInUsername;
+        selectedServerId = currentServerId;
+
+        try {
+            const serverSnapshot = await db.ref(`servers/${currentServerId}`).once('value');
+            if (!serverSnapshot.exists() || serverSnapshot.val().status !== 'online') {
+                localStorage.removeItem('connectedServerId');
+                alert('The server is no longer online. Please connect to a new one.');
+                handleFullLogout(); 
+                showScreen('server-connection-container');
+                return;
+            }
+            const serverData = serverSnapshot.val();
+            isUnlimitedBalanceMode = serverData.unlimitedBalance === true;
+
+            db.ref(`servers/${currentServerId}/connectedUsers/${currentUser}`).set(true);
+
+            const userSnapshot = await db.ref('users/' + currentUser).once('value');
+            const userData = userSnapshot.val();
+            if (userData.isBanned) {
+                localStorage.setItem('bannedUsername', currentUser);
+                showBannedScreen();
+                return;
+            }
+            isCurrentUserPremium = (userData.isPremium && userData.premiumExpiry > Date.now());
+            const savedTheme = userData.theme || localStorage.getItem('theme') || 'thunderclash';
+            applyTheme(savedTheme);
+
+            showScreen('app-container');
+            await loadUserData(); // Await loadUserData to check for gifts immediately
+
+            document.querySelector('.bottom-nav').style.display = 'flex';
+            activateBottomNavItem(document.querySelector('.bottom-nav-item:nth-child(2)')); // Activate Home
+
+            if (isCurrentUserPremium && !userData.premiumNotified) {
+                openModal(null, 'premium-welcome-modal');
+                db.ref('users/' + currentUser + '/premiumNotified').set(true);
+            }
+
+            detachServerListener(); // Ensure any old listener is removed
+            const serverRef = db.ref(`servers/${currentServerId}`);
+            serverStatusListener = serverRef.on('value', (liveSnapshot) => {
+                if (!liveSnapshot.exists() || liveSnapshot.val().status !== 'online') {
+                    detachServerListener();
+                    alert('You have been disconnected from the server.');
+                    disconnectFromServer(false);
+                }
+            }, (error) => {
+                console.error("Error in live server listener:", error);
+                detachServerListener();
+                alert('Server connection lost due to an error. Please reconnect.');
+                disconnectFromServer(false);
+            });
+        } catch (error) {
+            console.error("Error finalizing login:", error);
+            alert("An error occurred during app setup. Please try again.");
+            handleFullLogout();
+            showScreen('server-connection-container');
+        }
+    }
+
+    /**
+     * Attempts to auto-login and connect to a server based on stored local data.
+     * Handles scenarios where no user/server data is found, leading to respective screens.
+     */
+    async function attemptAutoLoginAndServerConnect() {
+        const username = localStorage.getItem('username');
+        const connectedServerId = localStorage.getItem('connectedServerId');
+
+        document.querySelector('.container').style.display = 'block';
+
+        if (username && connectedServerId) {
+            try {
+                // First, quickly check if server is online
+                const serverSnapshot = await db.ref(`servers/${connectedServerId}`).once('value');
+                if (!serverSnapshot.exists() || serverSnapshot.val().status !== 'online') {
+                    localStorage.removeItem('connectedServerId');
+                    alert('Your previously connected server is offline or invalid. Please connect to a server.');
+                    showScreen('server-connection-container');
+                    return;
+                }
+                await finalizeLoginSuccess(username, connectedServerId);
+            } catch (error) {
+                console.error("Error during auto-login/server connect:", error);
+                alert("An error occurred during startup. Please try connecting or logging in manually.");
+                handleFullLogout();
+                showScreen('server-connection-container');
+            }
+        } else if (connectedServerId) { // Server ID exists, but no username (e.g., user logged out but server still remembered)
+            try {
+                const serverSnapshot = await db.ref(`servers/${connectedServerId}`).once('value');
+                if (!serverSnapshot.exists() || serverSnapshot.val().status !== 'online') {
+                    localStorage.removeItem('connectedServerId');
+                    alert('Your previously connected server is offline or invalid. Please connect to a server.');
+                    showScreen('server-connection-container');
+                } else {
+                    showScreen('login-container');
+                }
+            } catch (error) {
+                console.error("Error checking server status before login:", error);
+                alert("Error checking server status. Please try connecting to a server.");
+                showScreen('server-connection-container');
+            }
+        } else { // No connected server, or no username
+            showScreen('server-connection-container');
+        }
+
+        // Common modal setup (kept here as it's needed regardless of initial screen)
+        document.querySelectorAll('.modal-overlay').forEach(modal => modal.addEventListener('click', (e) => closeModal(e, e.target.id)));
+        document.querySelectorAll('.modal-content').forEach(content => content.addEventListener('click', (e) => e.stopPropagation()));
+        document.addEventListener('keydown', (event) => { if (event.key === 'Escape') { document.querySelectorAll('.modal-overlay').forEach(modal => { if (modal.style.display === 'flex') closeModal(event, modal.id); }); } });
+    }
+
+    /**
+     * Orchestrates the initial app setup, including maintenance checks and auto-login attempts.
+     */
+    async function initialAppSetup() {
+        document.querySelector('.container').style.display = 'none';
+        document.querySelector('.bottom-nav').style.display = 'none';
+
+        let maintenanceActive = false;
+        try {
+            maintenanceActive = await checkMaintenanceStatus();
+        } catch (error) {
+            console.error("Error during initial maintenance check:", error);
+        }
+
+        if (maintenanceActive) {
+            if (!maintenanceCheckInterval) {
+                maintenanceCheckInterval = setInterval(async () => {
+                    const stillMaintenance = await checkMaintenanceStatus();
+                    if (!stillMaintenance) {
+                        clearInterval(maintenanceCheckInterval);
+                        maintenanceCheckInterval = null;
+                        attemptAutoLoginAndServerConnect(); // Maintenance over, proceed
+                    }
+                }, 60 * 1000); // Check every minute
+            }
+            return;
+        }
+        
+        // If no maintenance, proceed with streamlined app flow
+        attemptAutoLoginAndServerConnect();
+
+        // Also start interval to catch if maintenance is scheduled/activated later
+        if (!maintenanceCheckInterval) {
+            maintenanceCheckInterval = setInterval(checkMaintenanceStatus, 60 * 1000); // Check every minute
+        }
+    }
+
+    /**
+     * Detaches the Firebase listener for server status.
+     * Prevents memory leaks and ensures listeners are clean when a server is disconnected.
+     */
+    function detachServerListener() {
+        if (serverStatusListener) {
+            const serverId = localStorage.getItem('connectedServerId');
+            if (serverId) { db.ref(`servers/${serverId}`).off('value', serverStatusListener); }
+            serverStatusListener = null;
+        }
+    }
+
+    /**
+     * Applies a given theme to the body of the document.
+     * Manages CSS classes and custom properties for theme colors.
+     * @param {string} themeName - The name of the theme to apply.
+     */
+    function applyTheme(themeName) {
+        document.body.classList.remove(...THEME_CLASSES);
+        if (themeName === 'thunderclash') {
+            document.body.classList.add('thunderclash-theme');
+            document.body.style.setProperty('--accent-color-1', '#00BFFF');
+            document.body.style.setProperty('--accent-color-2', '#00FFFF');
+            document.body.style.setProperty('--accent-glow', 'rgba(0, 191, 255, 0.7)');
+        } else {
+            document.body.classList.add(themeName + '-theme');
+            document.body.style.removeProperty('--accent-color-1');
+            document.body.style.removeProperty('--accent-color-2');
+            document.body.style.removeProperty('--accent-glow');
+        }
+    }
+    
+    /**
+     * Checks if a given theme is a premium-only theme.
+     * @param {string} themeName - The name of the theme to check.
+     * @returns {boolean} - True if it's a premium theme, false otherwise.
+     */
+    function isPremiumTheme(themeName) {
+        return PREMIUM_THEMES.includes(themeName);
+    }
+
+    /**
+     * Changes the current theme of the application.
+     * Applies theme, saves to local storage and Firebase, and updates theme buttons.
+     * @param {string} themeName - The name of the theme to switch to.
+     */
+    function changeTheme(themeName) {
+        if (isPremiumTheme(themeName) && !isCurrentUserPremium) {
+            alert('This theme is for premium users only!');
+            return;
+        }
+        if (!isCurrentUserPremium && !ALLOWED_NORMAL_THEMES.includes(themeName)) {
+             alert('This theme is not available for normal users!');
+             return;
+        }
+
+        applyTheme(themeName);
+        localStorage.setItem('theme', themeName);
+        if (currentUser) {
+            db.ref('users/' + currentUser + '/theme').set(themeName);
+        }
+
+        document.querySelectorAll('.theme-btn').forEach(btn => {
+            btn.classList.remove('active');
+            const btnThemeNameMatch = btn.onclick.toString().match(/changeTheme\('(\w+)'\)/);
+            if (btnThemeNameMatch && btnThemeNameMatch[1] === themeName) {
+                btn.classList.add('active');
+            }
+        });
+    }
+
+    /**
+     * Detaches all active Firebase listeners to prevent memory leaks.
+     * Called during logout or server disconnection.
+     */
+    function detachAllListeners() {
+        detachServerListener();
+        detachUserDataListeners();
+        detachMatchesListener();
+        // Removed detachPendingListeners as pending balance feature is removed
+    }
+    
+    /**
+     * Handles a full logout from the application, including server disconnection and clearing user data.
+     */
+    function handleFullLogout() {
+        const serverId = localStorage.getItem('connectedServerId');
+        const username = localStorage.getItem('username'); 
+
+        if (serverId && username) { 
+            db.ref(`servers/${serverId}/connectedUsers/${username}`).remove(); 
+        }
+        
+        localStorage.removeItem('username');
+        localStorage.removeItem('connectedServerId');
+        localStorage.removeItem('theme');
+        localStorage.removeItem('bannedUsername'); 
+
+        isCurrentUserPremium = false; 
+        currentUser = null;
+        document.body.className = ''; 
+        applyTheme('thunderclash'); 
+        
+        detachAllListeners();
+
+        document.querySelector('.bottom-nav').style.display = 'none';
+        showScreen('server-connection-container');
+    }
+
+    /**
+     * Handles a partial logout, only logging out the current user but keeping the server connection if any.
+     * @param {Event} event - The event that triggered the logout.
+     */
+    function handleLogout(event) {
+        if(event) event.stopPropagation();
+        const serverId = localStorage.getItem('connectedServerId');
+        const username = localStorage.getItem('username');
+        if (serverId && username) { db.ref(`servers/${serverId}/connectedUsers/${username}`).remove(); }
+        currentUser = null;
+        localStorage.removeItem('username');
+        document.body.className = ''; 
+        applyTheme('thunderclash'); 
+        isCurrentUserPremium = false; 
+
+        detachAllListeners();
+        
+        document.querySelector('.bottom-nav').style.display = 'none';
+        showScreen('login-container');
+    }
+    
+    /**
+     * Shows the sign-up form and hides the login form.
+     * @param {Event} event - The event that triggered the form switch.
+     */
+    function showSignUpForm(event) {
+        event.preventDefault();
+        document.getElementById('login-form').style.display = 'none';
+        document.getElementById('signup-form').style.display = 'block';
+        document.getElementById('form-title').innerText = 'Sign Up';
+    }
+
+    /**
+     * Shows the login form and hides the sign-up form.
+     * @param {Event} event - The event that triggered the form switch.
+     */
+    function showLoginForm(event) {
+        event.preventDefault();
+        document.getElementById('signup-form').style.display = 'none';
+        document.getElementById('login-form').style.display = 'block';
+        document.getElementById('form-title').innerText = 'Login';
+    }
+
+    /**
+     * Controls the visibility of different screens in the application.
+     * Manages which screen is currently active and updates bottom navigation and ads accordingly.
+     * @param {string} screenId - The ID of the screen to display.
+     */
+    function showScreen(screenId) { 
+        const mainContainer = document.querySelector('.container');
+        const bottomNav = document.querySelector('.bottom-nav');
+        
+        mainContainer.style.display = 'block';
+
+        const currentActiveScreen = screens.find(id => {
+            const el = document.getElementById(id);
+            return el && (el.style.display === 'block' || el.style.display === 'flex');
+        });
+        if (currentActiveScreen) {
+            previousScreen = currentActiveScreen;
+        }
+
+        const showBottomNav = ['app-container', 'profile-page-container', 'send-money-container', 'match-details-container', 'game-matches-container'].includes(screenId) && currentUser;
+        if (showBottomNav) {
+            bottomNav.style.display = 'flex';
+        } else {
+            bottomNav.style.display = 'none';
+        }
+
+        screens.forEach(id => { 
+            const el = document.getElementById(id); 
+            if (['login-container', 'banned-container', 'maintenance-container', 'transfer-success-container', 'pin-verification-container', 'server-connection-container', 'review-request-container'].includes(id)) { 
+                el.style.display = (id === screenId) ? 'flex' : 'none'; 
+            } else { 
+                el.style.display = (id === screenId) ? 'block' : 'none'; 
+            } 
+        }); 
+
+        const adContainer = document.getElementById('ad-container');
+        if (!isCurrentUserPremium && adContainer && screenId === 'app-container') {
+            adContainer.classList.remove('hidden');
+            loadAds();
+        } else if (adContainer) {
+            adContainer.classList.add('hidden');
+            removeAds();
+        }
+    }
+
+    /**
+     * Navigates back from the match details screen to the previous appropriate screen.
+     */
+    function goBackFromMatchDetails() {
+        if (previousScreen === 'game-matches-container') {
+            showScreen('game-matches-container');
+            activateBottomNavItem(document.querySelector('.bottom-nav-item:nth-child(2)'));
+        } else {
+            showScreen('app-container');
+            activateBottomNavItem(document.querySelector('.bottom-nav-item:nth-child(2)'));
+        }
+    }
+    
+    /**
+     * Displays the banned screen for a suspended user.
+     */
+    function showBannedScreen() { 
+        currentUser = null; 
+        detachAllListeners();
+        document.querySelector('.bottom-nav').style.display = 'none';
+        showScreen('banned-container'); 
+    }
+
+    /**
+     * Displays the review request form for a banned user.
+     */
+    function showReviewRequestForm() {
+        const username = localStorage.getItem('bannedUsername');
+        if (!username) {
+            alert("No banned user information found. Please re-enter your username on the login screen.");
+            showScreen('login-container');
+            return;
+        }
+        document.getElementById('review-request-form').reset();
+        showScreen('review-request-container');
+    }
+
+    /**
+     * Sends a review request to administrators for a banned account.
+     */
+    function sendReviewRequest() {
+        const username = localStorage.getItem('bannedUsername');
+        if (!username) {
+            alert("No banned user information found to send a review request.");
+            handleFullLogout();
+            return;
+        }
+        const message = document.getElementById('review-message').value.trim();
+        
+        const reviewRequestData = {
+            username: username,
+            message: message || "No message provided.",
+            timestamp: new Date().toISOString(),
+            status: 'pending'
+        };
+
+        db.ref('reviewRequests').push(reviewRequestData)
+            .then(() => {
+                alert('Your review request has been sent successfully. We will review your account shortly.');
+                document.getElementById('review-request-form').reset();
+                localStorage.removeItem('bannedUsername');
+                handleFullLogout();
+            })
+            .catch(error => {
+                alert('Failed to send review request: ' + error.message);
+            });
+    }
+
+    /**
+     * Handles user login authentication.
+     * @returns {Promise<void>}
+     */
+    async function handleLogin() { 
+        let username = document.getElementById('login-username').value.trim(); 
+        const password = document.getElementById('login-password').value.trim(); 
+        if (!username || !password) { alert('Please enter both username and password.'); return; } 
+        if (!username.startsWith('@')) { username = '@' + username; } 
+
+        db.ref('users/' + username).once('value', async (snapshot) => { 
+            if (snapshot.exists()) { 
+                const userData = snapshot.val(); 
+                if (userData.isBanned === true) { 
+                    localStorage.setItem('bannedUsername', username); 
+                    showBannedScreen(); 
+                    return; 
+                } 
+                if (userData.password === password) { 
+                    localStorage.setItem('username', username); 
+                    const connectedServerId = localStorage.getItem('connectedServerId'); 
+                    if (connectedServerId) {
+                        await finalizeLoginSuccess(username, connectedServerId);
+                    } else {
+                        showScreen('server-connection-container');
+                    }
+                } else { alert('Incorrect password.'); } 
+            } else { alert('User not found.'); } 
+        }, (error) => { 
+            console.error("Error checking login status:", error);
+            alert("Failed to check login status. Please try logging in again.");
+        }); 
+    }
+
+    /**
+     * Handles user account registration.
+     * @returns {Promise<void>}
+     */
+    async function handleSignUp() { 
+        let username = document.getElementById('signup-username').value.trim(); 
+        const name = document.getElementById('signup-name').value.trim(); 
+        const password = document.getElementById('signup-password').value.trim(); 
+        const thunderPin = document.getElementById('signup-pin').value.trim();
+        if (!name || !username || !password || !thunderPin) { alert('Please fill in all fields.'); return; } 
+        if (!username.startsWith('@')) { username = '@' + username; } 
+        if (!/^\d{4}$/.test(thunderPin)) { alert('Thunder PIN must be exactly 4 digits.'); return; } 
+
+        db.ref('users/' + username).once('value', async (snapshot) => { 
+            if (snapshot.exists()) { alert('This @username is already taken.'); } 
+            else { 
+                const thunderId = `${Math.floor(10000 + Math.random() * 90000)}@thunder`;
+                const newUser = { 
+                    name, password, thunderPin, balance: 0, isBanned: false,
+                    theme: 'thunderclash', 
+                    thunderId, createdAt: new Date().toISOString(),
+                    isPremium: false, premiumExpiry: null, premiumNotified: false 
+                }; 
+                db.ref('users/' + username).set(newUser).then(async () => { 
+                    localStorage.setItem('username', username); 
+                    const connectedServerId = localStorage.getItem('connectedServerId'); 
+                    if (connectedServerId) {
+                        await finalizeLoginSuccess(username, connectedServerId);
+                    } else {
+                        showScreen('server-connection-container');
+                    }
+                    alert('Account created successfully!'); 
+                }).catch(error => alert('Error: ' + error.message)); 
+            } 
+        }); 
+    }
+
+    /**
+     * Loads advertisements into the ad container.
+     * Only loads if the user is not premium.
+     */
+    function loadAds() {
+        const adContainer = document.getElementById('ad-container');
+        if (!adContainer || isCurrentUserPremium) {
+            console.log('Ad container not found or user is premium. Ads cannot be loaded.');
+            return;
+        }
+
+        adContainer.innerHTML = '';
+
+        if (!isCurrentUserPremium) {
+            window.atOptions = {
+                'key' : '44d07ffd0361b84184a000cbe6a0c582',
+                'format' : 'iframe',
+                'height' : 50,
+                'width' : 320,
+                'params' : {}
+            };
+
+            const script1 = document.createElement('script');
+            script1.type = 'text/javascript';
+            script1.innerHTML = `atOptions = ${JSON.stringify(window.atOptions)};`;
+            adContainer.appendChild(script1);
+
+            const script2 = document.createElement('script');
+            script2.type = 'text/javascript';
+            script2.src = '//www.highperformanceformat.com/44d07ffd0361b84184a000cbe6a0c582/invoke.js';
+            adContainer.appendChild(script2);
+            
+            console.log('Ads loaded for non-premium user.');
+        } else {
+             adContainer.classList.add('hidden');
+        }
+    }
+
+    /**
+     * Removes all advertisements from the ad container.
+     */
+    function removeAds() {
+        const adContainer = document.getElementById('ad-container');
+        if (adContainer) {
+            adContainer.innerHTML = '';
+            adContainer.classList.add('hidden');
+            console.log('Ads removed.');
+        }
+        if (window.atOptions) {
+            delete window.atOptions;
+        }
+    }
+
+
+    /**
+     * Detaches Firebase listeners related to user data (balance and notices).
+     */
+    function detachUserDataListeners() {
+        if (userBalanceListener && currentUser) {
+            db.ref('users/' + currentUser).off('value', userBalanceListener);
+            userBalanceListener = null;
+        }
+        if (userNoticeListener && currentUser) {
+            db.ref('users/' + currentUser + '/notice').off('value', userNoticeListener);
+            userNoticeListener = null;
+        }
+    }
+
+    /**
+     * Loads and displays user-specific data, including balance, premium status, and transaction history.
+     * Also checks for and handles pending gifts.
+     * @returns {Promise<void>}
+     */
+    async function loadUserData() { 
+        if (!currentUser) return; 
+        
+        detachUserDataListeners();
+
+        const userRef = db.ref('users/' + currentUser); 
+        
+        userBalanceListener = userRef.on('value', async (snapshot) => { // Made async to await gift check
+            const userData = snapshot.val(); 
+            if (userData) { 
+                if (userData.isBanned) { handleFullLogout(); showBannedScreen(); return; } 
+
+                const now = Date.now();
+                isCurrentUserPremium = (userData.isPremium && userData.premiumExpiry > now);
+                const walletSummaryHeader = document.getElementById('wallet-summary-header');
+                const adContainer = document.getElementById('ad-container'); 
+
+                // Handle Premium Badge for Home Screen
+                const userDisplayDiv = document.getElementById('user-display');
+                if (userDisplayDiv) {
+                    // Clear any old premium badge before adding a new one
+                    let existingBadge = userDisplayDiv.querySelector('.premium-badge-img');
+                    if (existingBadge) {
+                        existingBadge.remove();
+                    }
+
+                    userDisplayDiv.innerHTML = `Welcome, <span>${currentUser}</span>`; // Reset text content
+                    const usernameSpan = userDisplayDiv.querySelector('span');
+
+                    if (isCurrentUserPremium) {
+                        let premiumBadgeSrc = '';
+                        const remainingTime = userData.premiumExpiry - now; // Time in milliseconds
+                        const remainingDays = Math.ceil(remainingTime / (1000 * 60 * 60 * 24)); // Days remaining
+
+                        if (remainingDays <= 1) {
+                            premiumBadgeSrc = 'p1.png'; // 1 day or less
+                        } else if (remainingDays <= 7) {
+                            premiumBadgeSrc = 'p7.png'; // 2 to 7 days
+                        } else { // More than 7 days
+                            premiumBadgeSrc = 'p30.png';
+                        }
+
+                        if (premiumBadgeSrc) {
+                            const premiumBadgeImg = document.createElement('img');
+                            premiumBadgeImg.src = premiumBadgeSrc;
+                            premiumBadgeImg.alt = 'Premium';
+                            premiumBadgeImg.classList.add('premium-badge-img');
+                            usernameSpan.appendChild(premiumBadgeImg);
+                        }
+                    }
+                }
+
+                if (isCurrentUserPremium) {
+                    walletSummaryHeader.classList.add('premium-user');
+                    removeAds(); 
+                } else {
+                    walletSummaryHeader.classList.remove('premium-user');
+                    if (document.getElementById('app-container').style.display === 'block') {
+                        adContainer.classList.remove('hidden');
+                        loadAds();
+                    } else {
+                        adContainer.classList.add('hidden');
+                        removeAds(); 
+                    }
+                }
+
+                const balance = userData.balance || 0; 
+                document.getElementById('header-balance-display').innerText = `₹${balance.toFixed(2)}`; 
+                if(document.getElementById('balance-display-modal')) { document.getElementById('balance-display-modal').innerText = `Balance: ₹${balance.toFixed(2)}`; } 
+                
+                const historyList = document.getElementById('history-list'); 
+                if(historyList) { 
+                    historyList.innerHTML = ''; 
+                    const transactions = userData.transactions ? Object.values(userData.transactions).sort((a,b) => new Date(b.timestamp) - new Date(a.timestamp)) : []; 
+                    if (transactions.length > 0) { 
+                        transactions.forEach(item => { 
+                            const li = document.createElement('li'); 
+                            if(item.type === 'withdraw_request') { li.innerHTML = `Withdrawal: ₹${item.amount} - <span style="color:${item.status === 'pending' ? 'var(--accent-color-2)' : (item.status === 'completed' ? 'var(--success-green)' : 'var(--error-red)')};">${item.status.toUpperCase()}</span>`; } 
+                            else if (item.type === 'sent') { li.innerHTML = `Sent ₹${item.amount} to <strong>${item.to}</strong> <i class="fa-solid fa-arrow-up" style="color: var(--error-red);"></i>`; } 
+                            else if (item.type === 'received') { li.innerHTML = `Received ₹${item.amount} from <strong>${item.from}</strong> <i class="fa-solid fa-arrow-down" style="color: var(--success-green);"></i>`; } 
+                            else if (item.type === 'match_winnings') { li.innerHTML = `Won ₹${item.amount} from ${item.matchTitle || 'a match'} <i class="fa-solid fa-trophy" style="color: var(--accent-color-2);"></i>`; } 
+                            else if (item.type === 'entry_fee') { li.innerHTML = `Paid ₹${item.amount} entry for ${item.matchTitle || 'a match'} <i class="fa-solid fa-ticket" style="color: var(--error-red);"></i>`; }
+                            else if (item.type === 'gift_received') { li.innerHTML = `Gift: <strong>+₹${item.amount}</strong> <i class="fa-solid fa-gift" style="color: #FFD700;"></i>`; } // New history type for gifts
+                            historyList.appendChild(li); 
+                        }); 
+                    } else { historyList.innerHTML = '<li>No transaction history.</li>'; } 
+                } 
+
+                // NEW: Check for pending gifts and show modal
+                await checkForPendingGifts(); // Wait for gift check to complete
+            } 
+        }, (error) => {
+            console.error("Error loading user data:", error);
+            alert("Failed to load user data. Please try logging in again.");
+            handleLogout(null);
+        }); 
+        
+        userNoticeListener = userRef.child('notice').on('value', (snapshot) => {
+            currentNotice = snapshot.val(); 
+            const noticeBadge = document.getElementById('quick-notice-badge'); 
+            if (currentNotice && currentNotice.message) { 
+                noticeBadge.style.display = 'block'; 
+                if (!noticeAlreadyShown) { openModal(null, 'notice-modal'); noticeAlreadyShown = true; } 
+            } else { noticeBadge.style.display = 'none'; } 
+        }, (error) => {
+            console.error("Error loading user notice:", error);
+        }); 
+    }
+
+    /**
+     * Checks Firebase for any pending gifts for the current user and displays the gift box modal if found.
+     * @returns {Promise<void>}
+     */
+    async function checkForPendingGifts() {
+        if (!currentUser) return;
+
+        const giftsRef = db.ref(`users/${currentUser}/gifts`);
+        const snapshot = await giftsRef.orderByChild('status').equalTo('pending').once('value');
+
+        if (snapshot.exists()) {
+            // Find the first pending gift
+            const firstGiftEntry = Object.entries(snapshot.val())[0];
+            currentGiftId = firstGiftEntry[0];
+            currentGiftData = firstGiftEntry[1];
+
+            document.getElementById('gift-message-text').innerText = "Click the box to reveal your surprise!";
+            document.getElementById('gift-box-image').src = 'gift.png'; // Reset image
+            document.querySelector('.gift-image-container').classList.remove('claimed'); // Reset state
+            document.getElementById('claimed-gift-amount').style.display = 'none'; // Hide amount
+            openModal(null, 'gift-box-modal');
+        } else {
+            currentGiftId = null;
+            currentGiftData = null;
+            // No pending gifts, ensure modal is closed if it was open
+            closeModal(null, 'gift-box-modal');
+        }
+    }
+
+    /**
+     * Generates a random gift amount based on defined rarity tiers within a min/max range.
+     * @param {number} min - The minimum possible gift amount.
+     * @param {number} max - The maximum possible gift amount.
+     * @returns {number} - The randomly generated gift amount (integer).
+     */
+    function generateRandomGiftAmount(min, max) {
+        if (min === max) return min; // If min and max are the same, just return that amount
+
+        const range = max - min;
+        const rand = Math.random(); // 0 to 1
+
+        let amount;
+
+        // Rarity tiers (adjust percentages as desired)
+        if (rand < 0.60) { // 60% chance for lower range
+            amount = min + Math.random() * (range * 0.33); // 0% to 33% of range
+        } else if (rand < 0.85) { // 25% chance for mid-range
+            amount = min + (range * 0.33) + Math.random() * (range * 0.34); // 33% to 67% of range
+        } else { // 15% chance for upper-range (including max)
+            amount = min + (range * 0.67) + Math.random() * (range * 0.33); // 67% to 100% of range
+        }
+        
+        return Math.floor(amount); // Ensure integer amount
+    }
+
+    /**
+     * Handles the claiming of a gift from the gift box.
+     * Updates user balance, records transaction, and updates gift status in Firebase.
+     * @returns {Promise<void>}
+     */
+    async function claimGift() {
+        if (!currentUser || !currentGiftId || !currentGiftData) {
+            alert("No gift available to claim.");
+            closeModal(null, 'gift-box-modal');
+            return;
+        }
+
+        const giftImageContainer = document.querySelector('.gift-image-container');
+        if (giftImageContainer.classList.contains('claimed')) {
+            alert("This gift has already been claimed.");
+            return;
+        }
+        
+        giftImageContainer.classList.add('claimed'); // Mark as claimed visually immediately
+        giftImageContainer.style.cursor = 'default';
+
+        const minAmount = currentGiftData.minAmount;
+        const maxAmount = currentGiftData.maxAmount;
+        const claimedAmount = generateRandomGiftAmount(minAmount, maxAmount);
+
+        try {
+            // Use a transaction to safely update balance and record history
+            await db.ref(`users/${currentUser}`).transaction(userData => {
+                if (userData) {
+                    userData.balance = (userData.balance || 0) + claimedAmount;
+                    const transactionId = db.ref().child('transactions').push().key;
+                    if (!userData.transactions) userData.transactions = {};
+                    userData.transactions[transactionId] = {
+                        type: 'gift_received',
+                        amount: claimedAmount,
+                        timestamp: new Date().toISOString()
+                    };
+                }
+                return userData;
+            });
+
+            // Update gift status to 'claimed' in Firebase
+            await db.ref(`users/${currentUser}/gifts/${currentGiftId}`).update({
+                status: 'claimed',
+                claimedAmount: claimedAmount,
+                claimedAt: new Date().toISOString()
+            });
+
+            document.getElementById('gift-message-text').innerText = "Congratulations!";
+            const claimedAmountDisplay = document.getElementById('claimed-gift-amount');
+            claimedAmountDisplay.innerText = `+₹${claimedAmount}`;
+            claimedAmountDisplay.style.display = 'block';
+
+            alert(`You claimed ₹${claimedAmount} from the gift box!`);
+            currentGiftId = null; // Clear current gift
+            currentGiftData = null; // Clear current gift data
+
+            // Re-load user data to update balance display and check for other gifts
+            await loadUserData();
+
+        } catch (error) {
+            console.error("Error claiming gift:", error);
+            alert("Failed to claim gift. Please try again.");
+            giftImageContainer.classList.remove('claimed'); // Revert visual state
+            giftImageContainer.style.cursor = 'pointer';
+        }
+    }
+
+
+    /**
+     * Opens the wallet modal, showing user balance and transaction options.
+     */
+    function openWalletModal() {
+        showScreen('app-container');
+        openModal(null, 'wallet-modal');
+    }
+
+    /**
+     * Opens the main menu modal, displaying server info, user Thunder ID, and theme options.
+     */
+    function openMainMenuModal() { 
+        showScreen('app-container');
+        document.getElementById('main-menu-modal').style.display = 'flex'; 
+        const serverId = localStorage.getItem('connectedServerId'); 
+        if(serverId) { 
+            db.ref(`servers/${serverId}/name`).once('value', snapshot => { 
+                document.getElementById('connected-server-name').innerText = snapshot.val() || 'Unknown'; 
+            }, (error) => { console.error("Error fetching server name for menu:", error); document.getElementById('connected-server-name').innerText = 'Error'; }); 
+        } 
+        
+        db.ref('users/' + currentUser).once('value', (userSnapshot) => {
+            const userData = userSnapshot.val();
+            const thunderId = userData?.thunderId;
+            const mainMenuUsernameDisplay = document.getElementById('main-menu-thunder-username-display');
+
+            // Clear any old premium badge before adding a new one
+            let existingBadge = mainMenuUsernameDisplay.querySelector('.premium-badge-img');
+            if (existingBadge) {
+                existingBadge.remove();
+            }
+
+            mainMenuUsernameDisplay.innerText = currentUser; // Reset text content to just username
+
+            const now = Date.now();
+            isCurrentUserPremium = (userData.isPremium && userData.premiumExpiry > now);
+
+            if (isCurrentUserPremium) {
+                let premiumBadgeSrc = '';
+                const remainingTime = userData.premiumExpiry - now; // Time in milliseconds
+                const remainingDays = Math.ceil(remainingTime / (1000 * 60 * 60 * 24)); // Days remaining
+
+                if (remainingDays <= 1) {
+                    premiumBadgeSrc = 'p1.png'; // 1 day or less
+                } else if (remainingDays <= 7) {
+                    premiumBadgeSrc = 'p7.png'; // 2 to 7 days
+                } else { // More than 7 days
+                    premiumBadgeSrc = 'p30.png';
+                }
+
+                if (premiumBadgeSrc) {
+                    const premiumBadgeImg = document.createElement('img');
+                    premiumBadgeImg.src = premiumBadgeSrc;
+                    premiumBadgeImg.alt = 'Premium';
+                    premiumBadgeImg.classList.add('premium-badge-img');
+                    mainMenuUsernameDisplay.appendChild(premiumBadgeImg);
+                }
+            }
+            
+            if (thunderId) { 
+                document.getElementById('main-menu-thunder-id-value').innerHTML = `Thunder ID: <strong>${thunderId}</strong>`;
+            } else {
+                document.getElementById('main-menu-thunder-id-value').innerHTML = `Thunder ID: <strong>N/A</strong>`;
+            }
+        }, (error) => { 
+            console.error("Error fetching thunder ID for menu:", error); 
+            document.getElementById('main-menu-thunder-id-value').innerHTML = `Thunder ID: <strong>Error</strong>`; 
+        }); 
+
+        document.querySelectorAll('.theme-btn').forEach(btn => {
+            const btnThemeNameMatch = btn.onclick.toString().match(/changeTheme\('(\w+)'\)/);
+            const themeName = btnThemeNameMatch ? btnThemeNameMatch[1] : '';
+
+            if (isCurrentUserPremium) {
+                btn.removeAttribute('disabled');
+                btn.style.opacity = '1';
+                btn.style.filter = 'grayscale(0%)';
+            } else {
+                if (isPremiumTheme(themeName) || !ALLOWED_NORMAL_THEMES.includes(themeName)) {
+                    btn.setAttribute('disabled', 'true');
+                    btn.style.opacity = '0.4';
+                    btn.style.filter = 'grayscale(100%)';
+                } else {
+                    btn.removeAttribute('disabled');
+                    btn.style.opacity = '1';
+                    btn.style.filter = 'grayscale(0%)';
+                }
+            }
+
+            const currentTheme = localStorage.getItem('theme') || 'thunderclash';
+            if (themeName === currentTheme) { 
+                btn.classList.add('active');
+            } else {
+                btn.classList.remove('active');
+            }
+        });
+    }
+
+    /**
+     * Displays the user's profile page.
+     */
+    async function showProfilePage() {
+        if (!currentUser) {
+            alert('Please log in to view your profile.');
+            showScreen('login-container');
+            return;
+        }
+        showScreen('profile-page-container');
+        document.getElementById('profile-username-display').innerText = currentUser;
+
+        const telegramIdEl = document.getElementById('telegram-id-display');
+        const telegramLinkEl = document.getElementById('telegram-link');
+        try {
+            const configSnapshot = await db.ref('config/telegramId').once('value');
+            const telegramId = configSnapshot.val() || 'thunderclash';
+            telegramIdEl.innerText = `@${telegramId}`;
+            if (telegramId !== '') {
+                telegramLinkEl.href = `https://t.me/${telegramId}`;
+            } else {
+                telegramLinkEl.href = '#';
+            }
+        } catch (error) {
+            console.error("Error fetching Telegram ID:", error);
+            telegramIdEl.innerText = "@thunderclash";
+            telegramLinkEl.href = 'https://t.me/thunderclash';
+        }
+
+        document.getElementById('change-password-form').reset();
+    }
+
+    /**
+     * Handles changing the user's password.
+     */
+    function handleChangePassword() {
+        const oldPassword = document.getElementById('old-password').value;
+        const newPassword = document.getElementById('new-password').value;
+        const confirmNewPassword = document.getElementById('confirm-new-password').value;
+
+        if (!oldPassword || !newPassword || !confirmNewPassword) {
+            alert('Please fill in all password fields.');
+            return;
+        }
+
+        if (newPassword !== confirmNewPassword) {
+            alert('New password and confirm new password do not match.');
+            return;
+        }
+        
+        if (newPassword.length < 6) {
+            alert('New password must be at least 6 characters long.');
+            return;
+        }
+
+        db.ref('users/' + currentUser).once('value', (snapshot) => {
+            const userData = snapshot.val();
+            if (userData.password === oldPassword) {
+                db.ref('users/' + currentUser + '/password').set(newPassword)
+                    .then(() => {
+                        alert('Password changed successfully!');
+                        document.getElementById('change-password-form').reset();
+                    })
+                    .catch(error => alert('Failed to change password: ' + error.message));
+            } else {
+                alert('Old password is incorrect.');
+            }
+        }, (error) => { console.error("Error validating old password:", error); alert("Error changing password. Please try again."); });
+    }
+
+    /**
+     * Detaches the Firebase listener for match data.
+     */
+    function detachMatchesListener() {
+        if (matchesListener) {
+            db.ref('matches').off('value', matchesListener); 
+            matchesListener = null;
+        }
+    }
+
+    /**
+     * Loads and displays matches for a specific game type.
+     * @param {string} gameType - The type of game (e.g., 'filework', 'freefire').
+     * @param {string} targetElementId - The ID of the HTML element where matches should be displayed.
+     */
+    function loadMatches(gameType, targetElementId) { 
+        detachMatchesListener();
+
+        const matchesListElement = document.getElementById(targetElementId); 
+        matchesListElement.innerHTML = '';
+
+        if (!currentUser) {
+            matchesListElement.innerHTML = '<p style="text-align:center;">Please log in to see matches.</p>';
+            return;
+        }
+
+        let matchesQuery = db.ref('matches');
+        if (gameType && gameType !== 'all') {
+            matchesQuery = matchesQuery.orderByChild('gameType').equalTo(gameType);
+        } else {
+            matchesQuery = matchesQuery.orderByChild('createdAt');
+        }
+
+        matchesListener = matchesQuery.on('value', (snapshot) => { 
+            matchesListElement.innerHTML = ''; 
+            if (!currentUser) { 
+                matchesListElement.innerHTML = '<p style="text-align:center;">Please log in to see matches.</p>';
+                return;
+            }
+
+            db.ref('users/' + currentUser).once('value', (userSnapshot) => { 
+                const joinedMatches = userSnapshot.val()?.joinedMatches || {}; 
+                let matches = []; 
+                snapshot.forEach(child => { matches.push({ id: child.key, ...child.val() }); }); 
+                
+                if (gameType === 'all' || !gameType) matches.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)); 
+                
+                if (matches.length > 0) { 
+                    matches.forEach(match => { 
+                        const card = document.createElement('div'); 
+                        card.className = 'match-card glass-card'; 
+                        const isJoined = joinedMatches[match.id]; 
+                        const sanitizedTitle = match.title.replace(/'/g, "\\'").replace(/"/g, "&quot;"); 
+                        const isJoinDisabled = isJoined || isUnlimitedBalanceMode; 
+                        card.innerHTML = ` <div class="match-card-emoji">🏆</div> <div class="separator" style="background-color: var(--accent-color-1);"></div> <div class="match-details"> <div> <h3>${match.title}</h3> <p>Time: <strong>${new Date(match.time).toLocaleString()}</strong></p> <p>Prize: <strong>₹${match.prize}</strong> | Entry: <strong>₹${match.entryFee || 0}</strong></p> </div> <div class="button-group"> <button id="join-${match.id}" class="join-button" onclick="joinMatch('${match.id}', ${match.entryFee || 0}, '${match.gameType}', '${sanitizedTitle}')" ${isJoinDisabled ? 'disabled' : ''}>${isJoined ? 'Joined' : 'Join'}</button> <button class="view-details-button" onclick="viewMatchDetails('${match.id}')" ${!isJoined ? 'style="display:none;"' : ''}>Details</button> </div> </div>`; 
+                        matchesListElement.appendChild(card); 
+                    }); 
+                } else { matchesListElement.innerHTML = '<p style="text-align:center;">NO LIVE MATCHES</p>'; } 
+            }, (error) => { console.error("Error fetching user joined matches:", error); matchesListElement.innerHTML = '<p style="text-align:center;">Error loading user data.</p>'; }); 
+        }, (error) => { console.error("Error loading matches:", error); matchesListElement.innerHTML = '<p style="text-align:center;">Error loading matches from server.</p>'; }); 
+    }
+
+    /**
+     * Shows the game-specific matches screen for a selected game type.
+     * @param {string} gameType - The type of game to display matches for.
+     * @param {string} title - The title to display on the game matches screen.
+     */
+    function showGameMatches(gameType, title) {
+        if (!currentUser) {
+            alert('Please log in to view matches.');
+            showScreen('login-container');
+            return;
+        }
+        showScreen('game-matches-container');
+        document.getElementById('game-matches-title').innerText = title;
+        loadMatches(gameType, 'game-specific-matches-list');
+    }
+
+    /**
+     * Handles the verification of the user's Thunder PIN for transactions.
+     */
+    function handlePinVerification() { 
+        const enteredPin = document.getElementById('thunder-pin-input').value;
+        if (!/^\d{4}$/.test(enteredPin)) { alert('Please enter your 4-digit Thunder PIN.'); return; }
+        if (!pendingTransferData) { alert('Error: No pending transaction found.'); showScreen('app-container'); return; } 
+        db.ref('users/' + currentUser + '/thunderPin').once('value', (snapshot) => {
+            const correctPin = snapshot.val(); 
+            if (enteredPin === correctPin) { 
+                performTransfer(pendingTransferData.recipient, pendingTransferData.amount, () => { 
+                    showScreen('transfer-success-container'); pendingTransferData = null; 
+                }); 
+            } else { alert('Incorrect PIN. Please try again.'); document.getElementById('thunder-pin-input').value = ''; }
+        }, (error) => { console.error("Error fetching Thunder PIN:", error); alert("Error verifying PIN. Please try again."); }); 
+    }
+
+    /**
+     * Cancels the current PIN verification process and returns to the home screen.
+     */
+    function cancelPinVerification() { 
+        pendingTransferData = null; 
+        document.getElementById('thunder-pin-input').value = '';
+        showScreen('app-container'); alert('Payment cancelled.'); 
+    }
+
+    /**
+     * Performs a money transfer between two users in a Firebase transaction.
+     * @param {string} recipientUsername - The username of the recipient.
+     * @param {number} amount - The amount to transfer.
+     * @param {function} onSuccessCallback - Callback function to execute on successful transfer.
+     */
+    function performTransfer(recipientUsername, amount, onSuccessCallback) { 
+        const usersRef = db.ref('users'); 
+        usersRef.transaction((allUsers) => { 
+            if (allUsers) { 
+                const sender = allUsers[currentUser]; 
+                const recipient = allUsers[recipientUsername]; 
+                if (!sender || !recipient || (sender.balance || 0) < amount) {
+                    console.warn("Transaction failed in transaction handler: insufficient balance or user not found.");
+                    return;
+                }
+                sender.balance = (sender.balance || 0) - amount; 
+                recipient.balance = (recipient.balance || 0) + amount; 
+                const transferId = db.ref().child('transfers').push().key; 
+                const timestamp = new Date().toISOString(); 
+                const senderLog = { type: 'sent', to: recipientUsername, amount, timestamp }; 
+                const recipientLog = { type: 'received', from: currentUser, amount, timestamp }; 
+                if (!sender.transactions) sender.transactions = {}; 
+                sender.transactions[transferId] = senderLog; 
+                if (!recipient.transactions) recipient.transactions = {}; 
+                recipient.transactions[transferId] = recipientLog; 
+            } return allUsers; 
+        }, (error, committed, snapshot) => { 
+            if (error) { alert("Transaction failed: " + error.message); console.error("Firebase transaction error:", error); } 
+            else if (!committed) { alert('Transaction failed. Insufficient balance or user not found.'); } 
+            else if(onSuccessCallback) { onSuccessCallback(); } 
+        }); 
+    }
+
+    /**
+     * Displays the send money page.
+     * Disabled if the app is in unlimited balance mode.
+     */
+    function showSendMoneyPage() {
+        if (isUnlimitedBalanceMode) { alert('Sending money is disabled in unlimited balance mode.'); return; } 
+        document.getElementById('thunder-id-recipient').value = '';
+        document.getElementById('thunder-id-amount').value = '';
+        showScreen('send-money-container');
+    }
+
+    /**
+     * Handles sending money to another user via their Thunder ID.
+     * Initiates PIN verification before performing the transfer.
+     */
+    function handleSendByThunderId() { 
+        if (isUnlimitedBalanceMode) { alert('Sending money is disabled in unlimited balance mode.'); return; } 
+        const recipientId = document.getElementById('thunder-id-recipient').value.trim();
+        const amount = parseFloat(document.getElementById('thunder-id-amount').value);
+        if (!recipientId || isNaN(amount) || amount <= 0) { alert("Please enter a valid Thunder ID and amount."); return; } 
+        db.ref('users').orderByChild('thunderId').equalTo(recipientId).once('value', (snapshot) => {
+            if (snapshot.exists()) { 
+                const recipientUsername = Object.keys(snapshot.val())[0]; 
+                if (recipientUsername === currentUser) { alert("You cannot send money to yourself."); return; } 
+                pendingTransferData = { recipient: recipientUsername, amount: amount }; 
+                document.getElementById('thunder-pin-input').value = '';
+                showScreen('pin-verification-container'); 
+            } else { alert("Thunder ID not found."); }
+        }, (error) => { console.error("Error searching for Thunder ID:", error); alert("Error searching for recipient. Please try again."); }); 
+    }
+
+    /**
+     * Handles a user's request to withdraw funds.
+     * Processes the request as a Firebase transaction and updates user balance.
+     * @param {Event} event - The form submission event.
+     */
+    function handleWithdraw(event) { 
+        event.preventDefault(); 
+        if (isUnlimitedBalanceMode) { alert('Withdrawals are disabled in unlimited balance mode.'); return; } 
+        const amount = parseFloat(document.getElementById('withdraw-amount').value); 
+        const upi = document.getElementById('upi-id').value.trim(); 
+        if (isNaN(amount) || amount <= 0 || !upi) { alert('Please fill all fields.'); return; } 
+        db.ref('users/' + currentUser).transaction(userData => { 
+            if (userData) { 
+                if ((userData.balance || 0) < amount) { return; } 
+                userData.balance -= amount; 
+                const requestId = db.ref().child('withdrawRequests').push().key; 
+                const requestData = { username: currentUser, amount, upi, status: 'pending', timestamp: new Date().toISOString(), type: 'withdraw_request' }; 
+                if (!userData.transactions) userData.transactions = {}; 
+                userData.transactions[requestId] = requestData; 
+                db.ref(`withdrawRequests/${requestId}`).set(requestData); 
+                return userData; 
+            } return; 
+        }, (error, committed) => { 
+            if (error) { alert('Error: ' + error.message); console.error("Firebase transaction error for withdrawal:", error); } 
+            else if (committed) { alert('Withdraw request sent!'); event.target.reset(); closeModal({target: {id: 'wallet-modal'}}, 'wallet-modal'); } 
+            else { alert('Insufficient balance.'); } 
+        }); 
+    }
+
+    /**
+     * Displays a list of available servers and allows the user to connect or disconnect.
+     */
+    function showServerList() { 
+        showScreen('server-list-container'); 
+        const serverList = document.getElementById('server-list'); 
+        serverList.innerHTML = '<li>Loading servers...</li>'; 
+        const connectedServerId = localStorage.getItem('connectedServerId'); 
+        db.ref('servers').once('value', snapshot => { 
+            serverList.innerHTML = ''; 
+            if (!snapshot.exists()) { serverList.innerHTML = '<li>No active servers found.</li>'; return; } 
+            let connectedServerNode = null; 
+            const otherServerNodes = []; 
+            snapshot.forEach(childSnapshot => { 
+                const serverId = childSnapshot.key; 
+                const serverData = childSnapshot.val(); 
+                const li = document.createElement('li'); 
+                li.className = 'server-item glass-card'; 
+                const isOnline = serverData.status === 'online'; 
+                const unlimitedBadge = serverData.unlimitedBalance ? `<small style="display: block; font-family: 'Roboto', sans-serif; font-weight: 500; font-size: 0.8rem; color: var(--accent-color-2); text-shadow: var(--black-outline), 0 0 5px var(--accent-glow);">Unlimited Balance</small>` : ''; 
+                li.innerHTML = `<div><span>${serverData.name}</span><small style="display: block; font-family: 'Roboto', sans-serif; font-weight: 500; font-size: 0.8rem; color: ${isOnline ? 'var(--success-green)' : 'var(--error-red)'}; text-shadow: var(--black-outline), 0 0 5px ${isOnline ? 'var(--success-green)' : 'var(--error-red)'};">${isOnline ? 'Online' : 'Offline'}</small>${unlimitedBadge}</div>`; 
+                if (serverId === connectedServerId) { 
+                    li.style.borderColor = 'var(--accent-color-2)'; 
+                    li.onclick = () => { if (confirm(`Are you sure you want to disconnect from ${serverData.name}?`)) { disconnectFromServer(); } }; 
+                    connectedServerNode = li; 
+                } else { 
+                    li.onclick = () => showServerLoginForm(serverId, serverData.name); 
+                    otherServerNodes.push(li); 
+                } 
+            }); 
+            if (connectedServerNode) { serverList.appendChild(connectedServerNode); } 
+            otherServerNodes.forEach(node => serverList.appendChild(node)); 
+        }, (error) => { console.error("Error loading server list:", error); serverList.innerHTML = '<li>Error loading servers.</li>'; }); 
+    }
+
+    /**
+     * Displays the server login form for a specific server.
+     * @param {string} serverId - The ID of the server to connect to.
+     * @param {string} serverName - The name of the server to display in the form title.
+     */
+    function showServerLoginForm(serverId, serverName) { 
+        selectedServerId = serverId; 
+        document.getElementById('server-login-title').innerText = `Connect to ${serverName}`; 
+        document.getElementById('server-login-form').reset(); 
+        showScreen('server-login-container'); 
+    }
+
+    /**
+     * Handles the connection attempt to a selected server.
+     * Validates credentials and updates connection status.
+     * @returns {Promise<void>}
+     */
+    async function handleServerConnect() { 
+        if (!selectedServerId) return; 
+        const password = document.getElementById('server-password').value; 
+        const activationCode = document.getElementById('server-activation-code').value; 
+
+        db.ref(`servers/${selectedServerId}`).once('value', async (snapshot) => { 
+            if (!snapshot.exists()) { alert('Server not found.'); return; } 
+            const serverData = snapshot.val(); 
+            if (serverData.password === password && serverData.activationCode === activationCode) { 
+                if (serverData.status !== 'online') { alert('This server is currently offline. Please try another one.'); return; } 
+
+                localStorage.setItem('connectedServerId', selectedServerId); 
+                alert(`Successfully connected to ${serverData.name}!`); 
+
+                const username = localStorage.getItem('username');
+                if (username) {
+                    await finalizeLoginSuccess(username, selectedServerId);
+                } else {
+                    showScreen('login-container');
+                }
+            } else { alert('Incorrect password or activation code.'); } 
+        }, (error) => { console.error("Error connecting to server:", error); alert("Error connecting to server. Please try again."); }); 
+    }
+
+    /**
+     * Disconnects the user from the current server.
+     * Optionally prompts for confirmation.
+     * @param {boolean} [confirmDisconnect=true] - Whether to show a confirmation dialog.
+     */
+    function disconnectFromServer(confirmDisconnect = true) { 
+        if (confirmDisconnect && !confirm("Are you sure you want to disconnect? This will log you out.")) { return; } 
+        handleFullLogout(); 
+    }
+
+    /**
+     * Opens the admin notice modal and displays the current notice.
+     */
+    function openNoticeModal() { 
+        const modal = document.getElementById('notice-modal'); 
+        const messageEl = document.getElementById('notice-message-content'); 
+        if (currentNotice && currentNotice.message) { messageEl.innerText = currentNotice.message; } 
+        else { messageEl.innerText = "You have no new notices from the admin."; } 
+        openModal(null, 'notice-modal'); 
+    }
+
+    /**
+     * Deletes the current admin notice for the user.
+     */
+    function deleteNotice() { 
+        if (!currentUser) return; 
+        db.ref('users/' + currentUser + '/notice').remove().then(() => { 
+            closeModal({target: {id: 'notice-modal'}}, 'notice-modal'); 
+        }).catch(err => { console.error("Could not delete notice:", err); alert("Could not delete notice. Error: " + err.message); }); 
+    }
+
+    /**
+     * Allows a user to join a match, deducting the entry fee from their balance.
+     * @param {string} matchId - The ID of the match to join.
+     * @param {number} entryFee - The entry fee for the match.
+     * @param {string} gameType - The type of game (e.g., 'freefire').
+     * @param {string} matchTitle - The title of the match.
+     */
+    function joinMatch(matchId, entryFee, gameType, matchTitle) { 
+        if (isUnlimitedBalanceMode) { alert('Joining matches is disabled in unlimited balance mode.'); return; } 
+        if (!currentUser) return; 
+        const promptMsg = {freefire: "Free Fire UID", ludo: "Ludo User ID", filework: "WhatsApp number", mysterybox: "Your ID"}[gameType] || "Game ID"; 
+        const userIdInput = prompt(`Please enter your ${promptMsg} to join:`); 
+        if (!userIdInput) { alert("This is required."); return; } 
+        const joinButton = document.getElementById(`join-${matchId}`); 
+        joinButton.disabled = true; 
+        joinButton.innerText = 'Processing...'; 
+        db.ref('users/' + currentUser).transaction((userData) => { 
+            if (userData && (userData.balance || 0) >= entryFee) { 
+                userData.balance -= entryFee; 
+                if (entryFee > 0) { 
+                    const transactionId = db.ref().child('transactions').push().key; 
+                    if (!userData.transactions) userData.transactions = {}; 
+                    userData.transactions[transactionId] = { type: 'entry_fee', amount: entryFee, matchId: matchId, matchTitle: matchTitle, timestamp: new Date().toISOString() }; 
+                } return userData; 
+            } return; 
+        }, (error, committed) => { 
+            if (error) { alert('Transaction failed: ' + error); console.error("Firebase transaction error for joining match:", error); } 
+            else if (!committed) { alert(`Insufficient balance! You need ₹${entryFee}.`); } 
+            else { 
+                const updates = {}; 
+                updates[`/users/${currentUser}/joinedMatches/${matchId}`] = true; 
+                updates[`/matches/${matchId}/joined/${currentUser}`] = { uid: userIdInput.trim() }; 
+                db.ref().update(updates).then(() => alert('Successfully joined!'))
+                    .catch(updateError => { console.error("Error updating joined match data:", updateError); alert("Error joining match. Please try again."); }); 
+            } 
+            if (!committed) {
+                joinButton.disabled = false; 
+                joinButton.innerText = 'Join'; 
+            }
+        }); 
+    }
+
+    /**
+     * Displays detailed information about a specific match.
+     * @param {string} matchId - The ID of the match to view.
+     */
+    function viewMatchDetails(matchId) { 
+        db.ref('matches/' + matchId).once('value', (matchSnapshot) => { 
+            const match = matchSnapshot.val(); 
+            if (!match) { alert('Match not found.'); return; } 
+            currentMatchData = { id: matchId, ...match }; 
+            db.ref(`matches/${matchId}/joined/${currentUser}/uid`).once('value', (uidSnapshot) => { 
+                document.getElementById('details-uid-label').innerText = {freefire: 'Your Game ID:', ludo: 'Your Game ID:', filework: 'Your Number:', mysterybox: 'Your ID:'}[match.gameType] || 'Your ID:'; 
+                document.getElementById('details-title').innerText = match.title; 
+                document.getElementById('details-time').innerText = new Date(match.time).toLocaleString(); 
+                document.getElementById('details-prize').innerText = `₹${match.prize}`; 
+                document.getElementById('details-entry').innerText = `₹${match.entryFee || 0}`; 
+                document.getElementById('details-uid').innerText = uidSnapshot.val() || 'Not found'; 
+                const finishBtn = document.getElementById('finish-match-btn'); 
+                db.ref('finishRequests').orderByChild('matchUser').equalTo(`${matchId}_${currentUser}`).once('value', (reqSnap) => { 
+                    finishBtn.disabled = reqSnap.exists(); 
+                    finishBtn.innerText = reqSnap.exists() ? `Request Sent (${Object.values(reqSnap.val())[0].status})` : 'Finish Match'; 
+                }, (error) => { console.error("Error checking finish requests:", error); finishBtn.innerText = 'Error checking request'; finishBtn.disabled = true; }); 
+                showScreen('match-details-container'); 
+            }, (error) => { console.error("Error fetching match joined UID:", error); document.getElementById('details-uid').innerText = 'Error'; }); 
+        }, (error) => { console.error("Error fetching match details:", error); alert("Error fetching match details. Please try again."); }); 
+    }
+
+    /**
+     * Handles the user's request to finish a match.
+     * Submits a request to administrators for review.
+     */
+    function handleFinishMatch() { 
+        if (!currentUser || !currentMatchData) return; 
+        const finishBtn = document.getElementById('finish-match-btn'); 
+        finishBtn.disabled = true; 
+        finishBtn.innerText = 'Submitting...'; 
+        const newRequestRef = db.ref('finishRequests').push(); 
+        newRequestRef.set({ 
+            requestId: newRequestRef.key, 
+            username: currentUser, 
+            matchId: currentMatchData.id, 
+            matchTitle: currentMatchData.title, 
+            winningAmount: currentMatchData.prize, 
+            status: 'pending', 
+            timestamp: new Date().toISOString(), 
+            matchUser: `${currentMatchData.id}_${currentUser}` 
+        }).then(() => { alert('Request submitted!'); finishBtn.innerText = 'Request Sent (pending)'; })
+        .catch(error => { console.error("Error submitting finish request:", error); alert("Error submitting request. Please try again."); finishBtn.disabled = false; finishBtn.innerText = 'Finish Match'; }); 
+    }
+</script>
+</body>
+</html>
